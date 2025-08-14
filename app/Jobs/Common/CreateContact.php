@@ -11,7 +11,9 @@ use App\Interfaces\Job\ShouldCreate;
 use App\Jobs\Auth\CreateUser;
 use App\Jobs\Common\CreateContactPersons;
 use App\Models\Common\Contact;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
+use Throwable;
 
 class CreateContact extends Job implements HasOwner, HasSource, ShouldCreate
 {
@@ -24,7 +26,16 @@ class CreateContact extends Job implements HasOwner, HasSource, ShouldCreate
                 $this->createUser();
             }
 
-            $this->model = Contact::create($this->request->all());
+            try {
+                $this->model = Contact::create($this->request->all());
+            } catch (Throwable $e) {
+                Log::error('Failed to create contact', [
+                    'message' => $e->getMessage(),
+                    'data' => $this->request->all(),
+                ]);
+
+                throw $e;
+            }
 
             // Upload logo
             if ($this->request->file('logo')) {
