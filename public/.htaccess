@@ -1,21 +1,15 @@
 <IfModule mod_rewrite.c>
-    <IfModule mod_negotiation.c>
-        Options -MultiViews -Indexes
-    </IfModule>
-
+    Options +FollowSymLinks
     RewriteEngine On
 
-    # Handle Authorization Header
-    RewriteCond %{HTTP:Authorization} .
-    RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
+    # Quita /public/ del inicio de la URL (p.ej. /public/css/app.css -> /css/app.css)
+    RewriteRule ^public/(.+)$ $1 [L,NC]
 
-    # Redirect Trailing Slashes If Not A Folder...
-    RewriteCond %{REQUEST_FILENAME} !-d
-    RewriteCond %{REQUEST_URI} (.+)/$
-    RewriteRule ^ %1 [L,R=301]
+    # Sirve assets aunque vengan como /auth/... /{id}/... o /en-GB/...
+    RewriteRule ^(auth|[0-9]+|[A-Za-z\-]{2,5})/((css|js|img)/.*)$ $2 [L,NC]
 
-    # Send Requests To Front Controller...
-    RewriteCond %{REQUEST_FILENAME} !-d
+    # Reglas estándar de Laravel
     RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
     RewriteRule ^ index.php [L]
 </IfModule>
