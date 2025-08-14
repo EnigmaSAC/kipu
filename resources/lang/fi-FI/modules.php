@@ -80,4 +80,6 @@ return [
         'na'                => 'Ei arvosteluita.'
     ],
 
+    'upload_title' => 'Upload Module',
+    'upload_install' => 'Upload & Install',
 ];

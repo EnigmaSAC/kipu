@@ -80,4 +80,6 @@ return [
         'na'                => '目前沒有評論'
     ],
 
+    'upload_title' => 'Upload Module',
+    'upload_install' => 'Upload & Install',
 ];

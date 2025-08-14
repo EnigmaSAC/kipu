@@ -80,4 +80,6 @@ return [
         'na'                => 'No hay reseñas.'
     ],
 
+    'upload_title' => 'Upload Module',
+    'upload_install' => 'Upload & Install',
 ];

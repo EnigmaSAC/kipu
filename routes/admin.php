@@ -229,6 +229,13 @@ Route::group(['as' => 'apps.', 'prefix' => 'apps'], function () {
     Route::post('copy', 'Modules\Item@copy')->name('copy');
     Route::post('install', 'Modules\Item@install')->name('install');
 
+    Route::get('upload', 'Modules\Item@showUploadForm')
+        ->middleware('permission:create-modules-item')
+        ->name('upload.form');
+    Route::post('upload', 'Modules\Item@upload')
+        ->middleware('permission:create-modules-item')
+        ->name('upload');
+
     Route::post('{alias}/releases', 'Modules\Item@releases')->name('app.releases');
     Route::post('{alias}/reviews', 'Modules\Item@reviews')->name('app.reviews');
     Route::get('{alias}/uninstall', 'Modules\Item@uninstall')->name('app.uninstall');

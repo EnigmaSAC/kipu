@@ -80,4 +80,6 @@ return [
         'na'                => 'Nuk ka shqyrtime.'
     ],
 
+    'upload_title' => 'Upload Module',
+    'upload_install' => 'Upload & Install',
 ];
