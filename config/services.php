@@ -34,4 +34,6 @@ return [
         'api_key' => env('SENDGRID_API_KEY'),
     ],
 
+    'akaunting_api_url' => env('AKAUNTING_API_URL', 'https://api.akaunting.com/'),
+
 ];

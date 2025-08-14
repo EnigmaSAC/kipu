@@ -11,7 +11,16 @@ use GuzzleHttp\Exception\RequestException;
 
 trait SiteApi
 {
-    public static $base_uri = 'https://api.akaunting.com/';
+    protected static function baseUri()
+    {
+        $uri = config('services.akaunting_api_url');
+
+        if (! app()->isLocal() && empty($uri)) {
+            $uri = 'https://api.akaunting.com/';
+        }
+
+        return $uri;
+    }
 
     protected static function siteApiRequest($method, $path, $extra_data = [])
     {
@@ -19,7 +28,13 @@ trait SiteApi
             return null;
         }
 
-        $client = new Client(['verify' => false, 'base_uri' => static::$base_uri]);
+        $base_uri = static::baseUri();
+
+        if (empty($base_uri)) {
+            return null;
+        }
+
+        $client = new Client(['verify' => false, 'base_uri' => $base_uri]);
 
         $headers['headers'] = [
             'Accept'      => 'application/json',
