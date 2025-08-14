@@ -69,6 +69,47 @@ class UsersTest extends FeatureTestCase
         Notification::assertSentTo([$user], Invitation::class);
     }
 
+    public function testItShouldNotSendInvitationWhenMailDisabled()
+    {
+        Notification::fake();
+
+        config(['mail.enabled' => false]);
+
+        $request = $this->getRequest();
+
+        $response = $this->loginAs()
+            ->post(route('users.store'), $request)
+            ->assertOk()
+            ->json();
+
+        $user = user_model_class()::findOrFail($response['data']['id']);
+
+        $this->assertDatabaseMissing('user_invitations', ['user_id' => $user->id]);
+
+        Notification::assertNothingSent();
+    }
+
+    public function testItCanSendInvitationWhenMailDisabledWithCheckbox()
+    {
+        Notification::fake();
+
+        config(['mail.enabled' => false]);
+
+        $request = $this->getRequest();
+        $request['send_invitation'] = true;
+
+        $response = $this->loginAs()
+            ->post(route('users.store'), $request)
+            ->assertOk()
+            ->json();
+
+        $user = user_model_class()::findOrFail($response['data']['id']);
+
+        $this->assertModelExists($user->invitation);
+
+        Notification::assertSentTo([$user], Invitation::class);
+    }
+
     public function testItShouldSeeUserUpdatePage()
     {
         $request = $this->getRequest();

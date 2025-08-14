@@ -20,6 +20,7 @@ return [
     'personal_information'  => 'Personal Information',
     'register_user'         => 'Register User',
     'register'              => 'Register',
+    'send_invitation'       => 'Send invitation email',
 
     'form_description' => [
         'personal'          => 'Ensure the email address is correct before sending the invitation link to the new user. They will be prompted to create their password.',
