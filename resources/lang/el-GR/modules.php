@@ -80,6 +80,6 @@ return [
         'na'                => 'Δεν υπάρχουν αξιολογήσεις.'
     ],
 
-    'upload_title' => 'Upload Module',
+    'upload_title' => 'Upload App',
     'upload_install' => 'Upload & Install',
 ];
