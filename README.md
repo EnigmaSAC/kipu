@@ -2,39 +2,38 @@
 
 [![Release](https://img.shields.io/github/v/release/akaunting/akaunting?label=release)](https://github.com/akaunting/akaunting/releases)
 
-Online accounting software designed for small businesses and freelancers. Akaunting is built with modern technologies such as Laravel, VueJS, Tailwind, RESTful API etc. Thanks to its modular structure, Akaunting provides an awesome App Store for users and developers.
+Software de contabilidad en línea diseñado para pequeñas empresas y freelancers. Akaunting está construido con tecnologías modernas como Laravel, VueJS, Tailwind, API REST, etc. Gracias a su estructura modular, Akaunting ofrece una increíble tienda de aplicaciones para usuarios y desarrolladores.
 
-## Requirements
+## Requisitos
 
-* PHP 8.1 or higher
-* Database (e.g.: MariaDB, MySQL, PostgreSQL, SQLite)
-* Web Server (eg: Apache, Nginx, IIS)
-* [Other libraries](https://akaunting.com/hc/docs/on-premise/requirements/)
+* PHP 8.1 o superior
+* Base de datos (ej.: MariaDB, MySQL, PostgreSQL, SQLite)
+* Servidor web (ej.: Apache, Nginx, IIS)
+* [Otras librerías](https://akaunting.com/hc/docs/on-premise/requirements/)
 
 ## Framework
 
-uses [Laravel](http://laravel.com), the best existing PHP framework, as the foundation framework and [Module](https://github.com/akaunting/module) package for Apps.
+Utiliza [Laravel](http://laravel.com), el mejor framework PHP existente, como marco base y el paquete [Module](https://github.com/akaunting/module) para las aplicaciones.
 
-## Installation
+## Instalación
 
-* Install [Composer](https://getcomposer.org/download) and [Npm](https://nodejs.org/en/download)
-* Clone the repository: `git clone https://github.com/akaunting/akaunting.git`
-* Install dependencies: `composer install ; npm install ; npm run dev`
-* Install Akaunting:
+* Instala [Composer](https://getcomposer.org/download) y [Npm](https://nodejs.org/en/download)
+* Clona el repositorio: `git clone https://github.com/akaunting/akaunting.git`
+* Instala dependencias: `composer install ; npm install ; npm run dev`
+* Instala Akaunting:
 
 ```bash
 php artisan install --db-name="akaunting" --db-username="root" --db-password="pass" --admin-email="admin@company.com" --admin-password="123456"
 ```
 
-* Create sample data (optional): `php artisan sample-data:seed`
+* Crea datos de ejemplo (opcional): `php artisan sample-data:seed`
 
-## Contributing
+## Contribuir
 
-Please, be very clear on your commit messages and Pull Requests, empty Pull Request messages may be rejected without reason.
+Por favor, sé muy claro en tus mensajes de commit y Pull Requests; los Pull Requests sin mensaje pueden ser rechazados sin motivo.
 
-When contributing code to Akaunting, you must follow the PSR coding standards. The golden rule is: Imitate the existing Akaunting code.
+Al contribuir código a Akaunting, debes seguir los estándares de codificación PSR. La regla de oro es: imita el código existente de Akaunting.
 
+## Traducción
 
-## Translation
-
-If you'd like to contribute translations, please check out our [Crowdin](https://crowdin.com/project/akaunting) project.
+Si deseas contribuir traducciones, visita nuestro proyecto en [Crowdin](https://crowdin.com/project/akaunting).
