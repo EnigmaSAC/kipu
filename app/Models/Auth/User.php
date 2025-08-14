@@ -2,6 +2,9 @@
 
 namespace App\Models\Auth;
 
+use Illuminate\Database\Eloquent\Relations\HasOne;
+use Akaunting\Sortable\Traits\Sortable;
+use App\Notifications\Auth\Reset;
 use Akaunting\Sortable\Traits\Sortable;
 use App\Notifications\Auth\Reset;
 use App\Traits\Media;
@@ -64,11 +67,18 @@ class User extends Authenticatable implements HasLocalePreference
         parent::boot();
 
         static::retrieved(function ($model) {
-            $model->setCompanyIds();
-        });
+        $model->setCompanyIds();
+    });
 
-        static::saving(function ($model) {
-            $model->unsetCompanyIds();
+    static::saving(function ($model) {
+        $model->unsetCompanyIds();
+    });
+
+    // Borrado en cascada (soft) de la invitación
+    static::deleting(function (User $user) {
+        optional($user->invitation)->delete();
+        if (method_exists($user, 'isForceDeleting') && $user->isForceDeleting()) {
+            optional($user->invitation)->forceDelete();
         });
     }
 
@@ -89,7 +99,7 @@ class User extends Authenticatable implements HasLocalePreference
 
     public function invitation()
     {
-        return $this->hasOne('App\Models\Auth\UserInvitation', 'user_id', 'id');
+        return $this->hasOne(\App\Models\Auth\UserInvitation::class, 'user_id', 'id');
     }
 
     public function roles()
