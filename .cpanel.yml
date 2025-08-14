@@ -1,4 +1,14 @@
 ---
 deployment:
   tasks:
+    - export PATH=$HOME/bin:/opt/cpanel/composer/bin:/usr/local/bin:/usr/bin:$PATH
     - 'echo "==> Deploy $(date)"'
+    # Dependencias PHP
+    - /opt/cpanel/composer/bin/composer install --no-dev --prefer-dist --optimize-autoloader
+    # Migraciones (requiere .env válido en el servidor)
+    - php artisan migrate --force || true
+    # Optimización/cachés
+    - php artisan optimize:clear
+    - php artisan config:cache
+    - php artisan route:cache
+    - php artisan view:cache
