@@ -125,6 +125,6 @@ return [
         'na'                => 'No hay revisiones.'
     ],
 
-    'upload_title' => 'Upload App',
-    'upload_install' => 'Upload & Install',
+    'upload_title' => 'Subir aplicación',
+    'upload_install' => 'Subir e instalar',
 ];
