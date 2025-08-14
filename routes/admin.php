@@ -218,9 +218,6 @@ Route::group(['as' => 'apps.', 'prefix' => 'apps'], function () {
     Route::get('vendors/{alias}', 'Modules\Tiles@vendorModules')->name('vendors.show');
     Route::get('docs/{alias}', 'Modules\Item@documentation')->name('docs.show');
 
-    Route::get('paid', 'Modules\Tiles@paidModules')->name('paid');
-    Route::get('new', 'Modules\Tiles@newModules')->name('new');
-    Route::get('free', 'Modules\Tiles@freeModules')->name('free');
     Route::get('search', 'Modules\Tiles@searchModules')->name('search');
     Route::post('{type}/load-more', 'Modules\Tiles@loadMore')->name('load-more');
     Route::post('steps', 'Modules\Item@steps')->name('steps');
