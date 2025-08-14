@@ -73,7 +73,7 @@ class DownloadFile extends Job
 
             $url = 'core/download/' . $this->version . '/' . $info['php'] . '/' . $info['mysql'];
         } else {
-            $url = 'apps/' . $this->alias . '/download/' . $this->version . '/' . version('short') . '/' . setting('apps.api_key');
+            $url = 'apps/' . $this->alias . '/download/' . $this->version . '/' . version('short');
         }
 
         return $url;

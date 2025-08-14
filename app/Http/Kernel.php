@@ -167,7 +167,6 @@ class Kernel extends HttpKernel
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
 
         // Akaunting
-        'api.key' => \App\Http\Middleware\RedirectIfNoApiKey::class,
         'auth.basic.once' => \App\Http\Middleware\AuthenticateOnceWithBasicAuth::class,
         'auth.disabled' => \App\Http\Middleware\LogoutIfUserDisabled::class,
         'auth.redirect' => \App\Http\Middleware\RedirectIfAuthenticated::class,

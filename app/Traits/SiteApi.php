@@ -15,15 +15,18 @@ trait SiteApi
 
     protected static function siteApiRequest($method, $path, $extra_data = [])
     {
+        if (empty(Info::getApiKey())) {
+            return null;
+        }
+
         $client = new Client(['verify' => false, 'base_uri' => static::$base_uri]);
 
         $headers['headers'] = [
-            'Authorization' => 'Bearer ' . Info::getApiKey(),
-            'Accept'        => 'application/json',
-            'Referer'       => app()->runningInConsole() ? config('app.url') : url('/'),
-            'Akaunting'     => Version::short(),
-            'Language'      => language()->getShortCode(),
-            'Information'   => json_encode(Info::all()),
+            'Accept'      => 'application/json',
+            'Referer'     => app()->runningInConsole() ? config('app.url') : url('/'),
+            'Akaunting'   => Version::short(),
+            'Language'    => language()->getShortCode(),
+            'Information' => json_encode(Info::all()),
         ];
 
         $data = array_merge([

@@ -51,7 +51,6 @@ class Scripts extends Component
     {
         $company = company();
 
-        $company->api_key = setting('apps.api_key');
         $company->financial_start = setting('localisation.financial_start');
 
         $logo_id = setting('company.logo');
@@ -77,9 +76,6 @@ class Scripts extends Component
         return [
             'company' => [
                 'title' => trans_choice('general.companies', 1),
-                'api_key' => trans('modules.api_key'),
-                'form_enter' => trans('general.form.enter'),
-                'get_api_key' => trans('modules.get_api_key'),
                 'tax_number' => trans('general.tax_number'),
                 'financial_start' => trans('settings.localisation.financial_start'),
                 'address' => trans('settings.company.address'),
