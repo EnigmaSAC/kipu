@@ -77,7 +77,7 @@ class CreateUser extends Job implements HasOwner, HasSource, ShouldCreate
                 ]);
             }
 
-            if ($this->request->boolean('send_invitation') && $this->shouldSendInvitation()) {
+            if ($this->shouldSendInvitation()) {
                 $this->dispatch(new CreateInvitation($this->model));
             }
         });
@@ -100,7 +100,7 @@ class CreateUser extends Job implements HasOwner, HasSource, ShouldCreate
         }
     }
 
-    protected function shouldSendInvitation()
+    protected function shouldSendInvitation(): bool
     {
         if (app()->runningInConsole() && ! app()->runningUnitTests()) {
             return false;
@@ -110,6 +110,10 @@ class CreateUser extends Job implements HasOwner, HasSource, ShouldCreate
             return false;
         }
 
-        return $this->request->boolean('send_invitation') && config('mail.enabled');
+        if ($this->request->has('send_invitation')) {
+            return $this->request->boolean('send_invitation');
+        }
+
+        return config('mail.enabled');
     }
 }
