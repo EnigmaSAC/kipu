@@ -1,4 +1,4 @@
-﻿# Akaunting™
+
 
 [![Release](https://img.shields.io/github/v/release/akaunting/akaunting?label=release)](https://github.com/akaunting/akaunting/releases)
 ![Downloads](https://img.shields.io/github/downloads/akaunting/akaunting/total?label=downloads)
