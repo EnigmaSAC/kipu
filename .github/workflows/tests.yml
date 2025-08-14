@@ -38,8 +38,19 @@ jobs:
       - name: Copy .env
         run: cp .env.testing .env
 
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Cache NPM
+        uses: actions/cache@v4
+        with:
+          path: ~/.npm
+          key: node-${{ hashFiles('package-lock.json') }}
+
       - name: Install NPM
-        run: npm install
+        run: npm ci
 
       - name: Compile assets
         run: npm run production
