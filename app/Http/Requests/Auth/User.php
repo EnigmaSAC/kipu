@@ -17,6 +17,13 @@ class User extends FormRequest
         return true;
     }
 
+    protected function prepareForValidation()
+    {
+        $this->merge([
+            'send_invitation' => (int) $this->boolean('send_invitation'),
+        ]);
+    }
+
     /**
      * Get the validation rules that apply to the request.
      *
@@ -67,13 +74,18 @@ class User extends FormRequest
         $change_password = $this->request->get('change_password') == true || $this->request->get('change_password') != null;
 
         $current_password = $change_password ? '|current_password' : '';
-        $password = $change_password ? '|confirmed' : '';
+
+        $password_rule = 'required_without:send_invitation|confirmed';
+
+        if (in_array($this->getMethod(), ['PATCH', 'PUT'])) {
+            $password_rule = 'required_if:change_password,true|confirmed';
+        }
 
         return [
             'name'              => 'required|string',
             'email'             => $email,
             'current_password'  => 'required_if:change_password,true' . $current_password,
-            'password'          => 'required_if:change_password,true' . $password,
+            'password'          => $password_rule,
             'companies'         => $companies,
             'roles'             => $roles,
             'picture'           => $picture,
