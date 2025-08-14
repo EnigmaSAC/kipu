@@ -11,14 +11,6 @@
 
     <x-slot name="content">
         <x-modules.banners />
-
-        <x-modules.pre-sale />
-
-        <x-modules.paid />
-
-        <x-modules.nnew />
-
-        <x-modules.free />
     </x-slot>
 
     <x-script folder="modules" file="apps" />
