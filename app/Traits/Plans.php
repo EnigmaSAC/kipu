@@ -71,9 +71,9 @@ trait Plans
         if (! $data = $this->getPlanLimits()) {
             $limit = new \stdClass();
 
-            $limit->action_status = false;
+            $limit->action_status = true;
             $limit->view_status = false;
-            $limit->message = "Not able to create a new $type.";
+            $limit->message = "Could not verify plan limit for $type.";
 
             return $limit;
         }
