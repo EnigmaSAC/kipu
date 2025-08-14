@@ -133,4 +133,6 @@ return [
         'na'                => 'Der er ingen anmeldelser.'
     ],
 
+    'upload_title' => 'Upload Module',
+    'upload_install' => 'Upload & Install',
 ];

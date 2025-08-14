@@ -80,4 +80,6 @@ return [
         ],
         'na' => '리뷰가 없습니다.'
     ]
+    'upload_title' => 'Upload Module',
+    'upload_install' => 'Upload & Install',
 ];

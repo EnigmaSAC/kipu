@@ -80,4 +80,6 @@ return [
         'na'                => 'Hər hansı bir rəy yoxdur.'
     ],
 
+    'upload_title' => 'Upload Module',
+    'upload_install' => 'Upload & Install',
 ];

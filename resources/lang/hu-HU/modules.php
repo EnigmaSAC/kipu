@@ -90,4 +90,6 @@ Elővétel',
         'na'                => 'Nincsenek vélemények.'
     ],
 
+    'upload_title' => 'Upload Module',
+    'upload_install' => 'Upload & Install',
 ];

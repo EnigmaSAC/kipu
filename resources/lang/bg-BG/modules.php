@@ -134,4 +134,6 @@ return [
         'na'                => 'Няма отзиви.'
     ],
 
+    'upload_title' => 'Upload Module',
+    'upload_install' => 'Upload & Install',
 ];

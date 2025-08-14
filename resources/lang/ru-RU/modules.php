@@ -80,4 +80,6 @@ return [
         'na'                => 'Нет отзывов.'
     ],
 
+    'upload_title' => 'Upload Module',
+    'upload_install' => 'Upload & Install',
 ];

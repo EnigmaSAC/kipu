@@ -80,4 +80,6 @@ return [
         'na'                => 'Inca nu sunt opinii salvate.'
     ],
 
+    'upload_title' => 'Upload Module',
+    'upload_install' => 'Upload & Install',
 ];

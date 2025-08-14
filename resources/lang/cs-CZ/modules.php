@@ -133,4 +133,6 @@ return [
         'na'                => 'Žádné recenze.'
     ],
 
+    'upload_title' => 'Upload Module',
+    'upload_install' => 'Upload & Install',
 ];

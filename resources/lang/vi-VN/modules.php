@@ -77,4 +77,6 @@ return [
         ],
         'na' => 'There are no reviews.'
     ]
+    'upload_title' => 'Upload Module',
+    'upload_install' => 'Upload & Install',
 ];
