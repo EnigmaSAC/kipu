@@ -25,49 +25,49 @@
         }
     ],
     "splash": {
-        "640x1136":  "public/img/pwa/splash-640x1136.png",
-        "750x1334":  "public/img/pwa/splash-750x1334.png",
-        "828x1792":  "public/img/pwa/splash-828x1792.png",
-        "1125x2436": "public/img/pwa/splash-1125x2436.png",
-        "1242x2208": "public/img/pwa/splash-1242x2208.png",
-        "1242x2688": "public/img/pwa/splash-1242x2688.png",
-        "1536x2048": "public/img/pwa/splash-1536x2048.png",
-        "1668x2224": "public/img/pwa/splash-1668x2224.png",
-        "1668x2388": "public/img/pwa/splash-1668x2388.png",
-        "2048x2732": "public/img/pwa/splash-2048x2732.png"
+        "640x1136":  "img/pwa/splash-640x1136.png",
+        "750x1334":  "img/pwa/splash-750x1334.png",
+        "828x1792":  "img/pwa/splash-828x1792.png",
+        "1125x2436": "img/pwa/splash-1125x2436.png",
+        "1242x2208": "img/pwa/splash-1242x2208.png",
+        "1242x2688": "img/pwa/splash-1242x2688.png",
+        "1536x2048": "img/pwa/splash-1536x2048.png",
+        "1668x2224": "img/pwa/splash-1668x2224.png",
+        "1668x2388": "img/pwa/splash-1668x2388.png",
+        "2048x2732": "img/pwa/splash-2048x2732.png"
     },
     "icons": [
         {
-            "src": "public/img/pwa/icon-192x192.png",
+            "src": "img/pwa/icon-192x192.png",
             "type": "image/png",
             "sizes": "192x192"
         },
         {
             "purpose": "maskable",
-            "src": "public/img/pwa/icon-192x192-maskable.png",
+            "src": "img/pwa/icon-192x192-maskable.png",
             "type": "image/png",
             "sizes": "192x192"
         },
         {
-            "src": "public/img/pwa/icon-512x512.png",
+            "src": "img/pwa/icon-512x512.png",
             "sizes": "512x512",
             "type": "image/png"
         },
         {
             "purpose": "maskable",
-            "src": "public/img/pwa/icon-512x512-maskable.png",
+            "src": "img/pwa/icon-512x512-maskable.png",
             "sizes": "512x512",
             "type": "image/png"
         }
     ],
     "screenshots": [
         {
-            "src": "public/img/pwa/screenshot-dashboard.png",
+            "src": "img/pwa/screenshot-dashboard.png",
             "sizes": "1932x1394",
             "type": "image/png"
         },
         {
-            "src": "public/img/pwa/screenshot-invoice.png",
+            "src": "img/pwa/screenshot-invoice.png",
             "sizes": "2748x1986",
             "type": "image/png"
         }
@@ -80,7 +80,7 @@
             "url": "sales/invoices/create?utm_source=pwa",
             "icons": [
                 {
-                    "src": "public/img/pwa/icon-192x192.png",
+                    "src": "img/pwa/icon-192x192.png",
 					"sizes": "192x192"
                 }
             ]
@@ -92,7 +92,7 @@
             "url": "banking/transactions/create?type=income&utm_source=pwa",
             "icons": [
                 {
-                    "src": "public/img/pwa/icon-192x192.png",
+                    "src": "img/pwa/icon-192x192.png",
 					"sizes": "192x192"
                 }
             ]
@@ -104,7 +104,7 @@
             "url": "purchases/bills/create?utm_source=pwa",
             "icons": [
                 {
-                    "src": "public/img/pwa/icon-192x192.png",
+                    "src": "img/pwa/icon-192x192.png",
 					"sizes": "192x192"
                 }
             ]
@@ -116,7 +116,7 @@
             "url": "banking/transactions/create?type=expense&utm_source=pwa",
             "icons": [
                 {
-                    "src": "public/img/pwa/icon-192x192.png",
+                    "src": "img/pwa/icon-192x192.png",
 					"sizes": "192x192"
                 }
             ]
