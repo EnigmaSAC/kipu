@@ -89,6 +89,13 @@ class User extends Authenticatable implements HasLocalePreference
         });
     }
 
+    protected static function booted()
+    {
+        static::deleting(function ($user) {
+            $user->invitation?->delete();
+        });
+    }
+
     public function companies()
     {
         return $this->belongsToMany('App\Models\Common\Company', 'App\Models\Auth\UserCompany');
