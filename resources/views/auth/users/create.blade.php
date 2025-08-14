@@ -61,6 +61,10 @@
                         <x-form.group.select name="landing_page" label="{!! trans('auth.landing_page') !!}" :options="$landing_pages" dynamicOptions="landing_pages" selected="dashboard" />
 
                         <x-form.group.locale />
+
+                        @if (! config('mail.enabled'))
+                            <x-form.group.checkbox name="send_invitation" :options="['1' => trans('auth.send_invitation')]" form-group-class="sm:col-span-6" />
+                        @endif
                     </x-slot>
                 </x-form.section>
 

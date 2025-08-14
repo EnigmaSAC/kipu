@@ -32,7 +32,7 @@ class User extends FormRequest
                     . '|dimensions:max_width=' . config('filesystems.max_width') . ',max_height=' . config('filesystems.max_height');
         }
 
-        $email = 'required|email:rfc,dns';
+        $email = 'required|email:rfc' . (app()->runningUnitTests() ? '' : ',dns');
 
         if (in_array($this->getMethod(), ['PATCH', 'PUT'])) {
             // Updating user
@@ -78,6 +78,7 @@ class User extends FormRequest
             'roles'             => $roles,
             'picture'           => $picture,
             'landing_page'      => 'required|string',
+            'send_invitation'   => 'boolean',
         ];
     }
 
