@@ -75,12 +75,12 @@ class User extends Authenticatable implements HasLocalePreference
     });
 
     // Borrado en cascada (soft) de la invitación
-    static::deleting(function (User $user) {
-        optional($user->invitation)->delete();
-        if (method_exists($user, 'isForceDeleting') && $user->isForceDeleting()) {
-            optional($user->invitation)->forceDelete();
-        });
+static::deleting(function (User $user) {
+    optional($user->invitation)->delete();
+    if (method_exists($user, 'isForceDeleting') && $user->isForceDeleting()) {
+        optional($user->invitation)->forceDelete();
     }
+});
 
     protected static function booted()
     {
