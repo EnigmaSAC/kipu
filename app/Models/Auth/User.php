@@ -2,9 +2,6 @@
 
 namespace App\Models\Auth;
 
-use Illuminate\Database\Eloquent\Relations\HasOne;
-use Akaunting\Sortable\Traits\Sortable;
-use App\Notifications\Auth\Reset;
 use Akaunting\Sortable\Traits\Sortable;
 use App\Notifications\Auth\Reset;
 use App\Traits\Media;
@@ -16,6 +13,7 @@ use App\Utilities\Date;
 use Illuminate\Contracts\Translation\HasLocalePreference;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laratrust\Traits\LaratrustUserTrait;
@@ -24,22 +22,32 @@ use Staudenmeir\EloquentHasManyDeep\HasRelationships;
 
 class User extends Authenticatable implements HasLocalePreference
 {
-    use HasFactory, HasRelationships, LaratrustUserTrait, Media, Notifiable, Owners, SearchString, SoftDeletes, Sortable, Sources, Tenants, Users;
+    use HasFactory,
+        HasRelationships,
+        LaratrustUserTrait,
+        Media,
+        Notifiable,
+        Owners,
+        SearchString,
+        SoftDeletes,
+        Sortable,
+        Sources,
+        Tenants,
+        Users;
 
     protected $table = 'users';
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
-    protected $fillable = ['name', 'email', 'password', 'locale', 'enabled', 'landing_page', 'created_from', 'created_by'];
+    protected $fillable = [
+        'name',
+        'email',
+        'password',
+        'locale',
+        'enabled',
+        'landing_page',
+        'created_from',
+        'created_by'
+    ];
 
-    /**
-     * The attributes that should be cast.
-     *
-     * @var array
-     */
     protected $casts = [
         'enabled'           => 'boolean',
         'last_logged_in_at' => 'datetime',
@@ -48,18 +56,8 @@ class User extends Authenticatable implements HasLocalePreference
         'deleted_at'        => 'datetime',
     ];
 
-    /**
-     * The attributes that should be hidden for arrays.
-     *
-     * @var array
-     */
     protected $hidden = ['password', 'remember_token'];
 
-    /**
-     * Sortable columns.
-     *
-     * @var array
-     */
     public $sortable = ['name', 'email', 'enabled'];
 
     public static function boot()
@@ -67,50 +65,23 @@ class User extends Authenticatable implements HasLocalePreference
         parent::boot();
 
         static::retrieved(function ($model) {
-        $model->setCompanyIds();
-    });
+            $model->setCompanyIds();
+        });
 
-    static::saving(function ($model) {
-        $model->unsetCompanyIds();
-    });
+        static::saving(function ($model) {
+            $model->unsetCompanyIds();
+        });
 
-    // Borrado en cascada (soft) de la invitación
-static::deleting(function (User $user) {
-    optional($user->invitation)->delete();
-    if (method_exists($user, 'isForceDeleting') && $user->isForceDeleting()) {
-        optional($user->invitation)->forceDelete();
-    }
-});
+        // Borrado en cascada (soft) de la invitación asociada
+        static::deleting(function (User $user) {
+            optional($user->invitation)->delete();
 
-    protected static function booted()
-    {
-        static::deleting(function ($user) {
-            $user->invitation?->delete();
+            if (method_exists($user, 'isForceDeleting') && $user->isForceDeleting()) {
+                optional($user->invitation)->forceDelete();
+            }
         });
     }
 
-    protected static function booted()
-        
-    parent::boot();
-
-    // Manejo de company_ids
-    static::retrieved(function ($model) {
-        $model->setCompanyIds();
-    });
-
-    static::saving(function ($model) {
-        $model->unsetCompanyIds();
-    });
-
-    // Borrado en cascada (soft) de la invitación
-    static::deleting(function (User $user) {
-        optional($user->invitation)->delete();
-
-        if (method_exists($user, 'isForceDeleting') && $user->isForceDeleting()) {
-            optional($user->invitation)->forceDelete();
-        }
-    });
-    
     public function companies()
     {
         return $this->belongsToMany('App\Models\Common\Company', 'App\Models\Auth\UserCompany');
@@ -126,9 +97,9 @@ static::deleting(function (User $user) {
         return $this->belongsToMany('App\Models\Common\Dashboard', 'App\Models\Auth\UserDashboard');
     }
 
-    public function invitation()
+    public function invitation(): HasOne
     {
-        return $this->hasOne(\App\Models\Auth\UserInvitation::class, 'user_id', 'id');
+        return $this->hasOne('App\Models\Auth\UserInvitation', 'user_id', 'id');
     }
 
     public function roles()
@@ -136,167 +107,90 @@ static::deleting(function (User $user) {
         return $this->belongsToMany(role_model_class(), 'App\Models\Auth\UserRole');
     }
 
-    /**
-     * Always capitalize the name when we retrieve it
-     */
     public function getNameAttribute($value)
     {
-        if (empty($value)) {
-            return trans('general.na');
-        }
-
-        return ucfirst($value);
+        return empty($value) ? trans('general.na') : ucfirst($value);
     }
 
-    /**
-     * Always return a valid picture when we retrieve it
-     */
     public function getPictureAttribute($value)
     {
-        // Check if we should use gravatar
         if (setting('default.use_gravatar', '0') == '1') {
             try {
-                // Check for gravatar
                 $url = 'https://www.gravatar.com/avatar/' . md5(strtolower($this->getAttribute('email'))) . '?size=90&d=404';
-
                 $client = new \GuzzleHttp\Client(['verify' => false]);
-
                 $client->request('GET', $url)->getBody()->getContents();
-
                 $value = $url;
             } catch (\GuzzleHttp\Exception\RequestException $e) {
-                // 404 Not Found
+                // ignoramos si no existe gravatar
             }
         }
 
         if (!empty($value)) {
             return $value;
-        } elseif (! $this->hasMedia('picture')) {
+        } elseif (!$this->hasMedia('picture')) {
             return false;
         }
 
         return $this->getMedia('picture')->last();
     }
 
-    /**
-     * Always return a valid picture when we retrieve it
-     */
     public function getLastLoggedAttribute($value)
     {
-        // Date::setLocale('tr');
-
-        if (!empty($value)) {
-            return Date::parse($value)->diffForHumans();
-        } else {
-            return trans('auth.never');
-        }
+        return !empty($value)
+            ? Date::parse($value)->diffForHumans()
+            : trans('auth.never');
     }
 
-    /**
-     * Always capitalize the name when we save it to the database
-     */
     public function setNameAttribute($value)
     {
         $this->attributes['name'] = ucfirst($value);
     }
 
-    /**
-     * Always hash the password when we save it to the database
-     */
     public function setPasswordAttribute($value)
     {
         $this->attributes['password'] = bcrypt($value);
     }
 
-    /**
-     * Send reset link to user via email
-     */
     public function sendPasswordResetNotification($token)
     {
         $this->notify(new Reset($token, $this->email));
     }
 
-    /**
-     * Scope to get all rows filtered, sorted and paginated.
-     *
-     * @param \Illuminate\Database\Eloquent\Builder $query
-     * @param $sort
-     *
-     * @return \Illuminate\Database\Eloquent\Builder
-     */
     public function scopeCollect($query, $sort = 'name')
     {
         $request = request();
         $search = $request->get('search');
-
-        /**
-         * Modules that use the sort parameter in CRUD operations cause an error,
-         * so this sort parameter set back to old value after the query is executed.
-         *
-         * for Custom Fields module
-         */
         $request_sort = $request->get('sort');
 
         $query->usingSearchString($search)->sortable($sort);
 
         $request->merge(['sort' => $request_sort]);
-        // This line disabled because broken sortable issue.
-        //$request->offsetUnset('direction');
+
         $limit = (int) $request->get('limit', setting('default.list_limit', '25'));
 
         return $query->paginate($limit);
     }
 
-    /**
-     * Scope to only include active users.
-     *
-     * @param \Illuminate\Database\Eloquent\Builder $query
-     * @return \Illuminate\Database\Eloquent\Builder
-     */
     public function scopeEnabled($query)
     {
         return $query->where('enabled', 1);
     }
 
-    /**
-     * Scope to only customers.
-     *
-     * @param \Illuminate\Database\Eloquent\Builder $query
-     * @return \Illuminate\Database\Eloquent\Builder
-     */
     public function scopeIsCustomer($query)
     {
         return $query->wherePermissionIs('read-client-portal');
     }
 
-    /**
-     * Scope to only users.
-     *
-     * @param \Illuminate\Database\Eloquent\Builder $query
-     * @return \Illuminate\Database\Eloquent\Builder
-     */
     public function scopeIsNotCustomer($query)
     {
         return $query->wherePermissionIs('read-admin-panel');
     }
 
-    /**
-     * Scope to only employees.
-     *
-     * @param \Illuminate\Database\Eloquent\Builder $query
-     * @return \Illuminate\Database\Eloquent\Builder
-     */
     public function scopeIsEmployee($query)
     {
         return $query->whereHasRole('employee');
     }
 
-    /**
-     * Scope to only users.
-     *
-     * @param \Illuminate\Database\Eloquent\Builder $query
-     * @return \Illuminate\Database\Eloquent\Builder
-     */
     public function scopeIsNotEmployee($query)
     {
         return $query->wherePermissionIs('read-admin-panel');
@@ -307,11 +201,6 @@ static::deleting(function (User $user) {
         return $query->where('email', '=', $email);
     }
 
-    /**
-     * Attach company_ids attribute to model.
-     *
-     * @return void
-     */
     public function setCompanyIds()
     {
         $company_ids = $this->withoutEvents(function () {
@@ -321,54 +210,29 @@ static::deleting(function (User $user) {
         $this->setAttribute('company_ids', $company_ids);
     }
 
-    /**
-     * Detach company_ids attribute from model.
-     *
-     * @return void
-     */
     public function unsetCompanyIds()
     {
         $this->offsetUnset('company_ids');
     }
 
-    /**
-     * Determine if user is a customer.
-     *
-     * @return bool
-     */
     public function isCustomer()
     {
         return (bool) $this->can('read-client-portal');
     }
 
-    /**
-     * Determine if user is not a customer.
-     *
-     * @return bool
-     */
     public function isNotCustomer()
     {
         return (bool) $this->can('read-admin-panel');
     }
 
-    /**
-     * Determine if user is a employee.
-     *
-     * @return bool
-     */
     public function isEmployee()
     {
         return (bool) $this->hasRole('employee');
     }
 
-    /**
-     * Determine if user is not a employee.
-     *
-     * @return bool
-     */
     public function isNotEmployee()
     {
-        return (bool) ! $this->hasRole('employee');
+        return (bool) !$this->hasRole('employee');
     }
 
     public function scopeSource($query, $source)
@@ -388,28 +252,14 @@ static::deleting(function (User $user) {
 
     public function ownerKey($owner)
     {
-        if ($this->isNotOwnable()) {
-            return 0;
-        }
-
-        return $this->created_by;
+        return $this->isNotOwnable() ? 0 : $this->created_by;
     }
 
-    /**
-     * Get the user's preferred locale.
-     *
-     * @return string
-     */
     public function preferredLocale()
     {
         return $this->locale;
     }
 
-    /**
-     * Get the line actions.
-     *
-     * @return array
-     */
     public function getLineActionsAttribute()
     {
         $actions = [];
@@ -462,11 +312,6 @@ static::deleting(function (User $user) {
         return $actions;
     }
 
-    /**
-     * Create a new factory instance for the model.
-     *
-     * @return \Illuminate\Database\Eloquent\Factories\Factory
-     */
     protected static function newFactory()
     {
         return \Database\Factories\User::new();
