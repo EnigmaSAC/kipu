@@ -13,37 +13,37 @@ class PlanLimitsTest extends FeatureTestCase
         Cache::flush();
     }
 
-    public function testUsersCreateShowsWarningWhenPlanCheckFails()
+    public function testUsersCreateShowsWarningWhenPlanLimitExceeded()
     {
-        Cache::put('plans.limits', false);
+        Cache::put('plans.limits', $this->planLimitsExceededData('user'));
         config(['app.env' => 'local']);
 
         $this->loginAs()
             ->get(route('users.create'))
             ->assertOk()
-            ->assertSee('Could not verify plan limit for user');
+            ->assertSee('Plan limit exceeded');
     }
 
-    public function testCompaniesCreateShowsWarningWhenPlanCheckFails()
+    public function testCompaniesCreateShowsWarningWhenPlanLimitExceeded()
     {
-        Cache::put('plans.limits', false);
+        Cache::put('plans.limits', $this->planLimitsExceededData('company'));
         config(['app.env' => 'local']);
 
         $this->loginAs()
             ->get(route('companies.create'))
             ->assertOk()
-            ->assertSee('Could not verify plan limit for company');
+            ->assertSee('Plan limit exceeded');
     }
 
-    public function testInvoicesCreateShowsWarningWhenPlanCheckFails()
+    public function testInvoicesCreateShowsWarningWhenPlanLimitExceeded()
     {
-        Cache::put('plans.limits', false);
+        Cache::put('plans.limits', $this->planLimitsExceededData('invoice'));
         config(['app.env' => 'local']);
 
         $this->loginAs()
             ->get(route('invoices.create'))
             ->assertOk()
-            ->assertSee('Could not verify plan limit for invoice');
+            ->assertSee('Plan limit exceeded');
     }
 
     public function testWarningsAreClearedAfterSuccessfulFetch()
@@ -52,27 +52,32 @@ class PlanLimitsTest extends FeatureTestCase
 
         app()->bind(\App\Http\ViewComposers\PlanLimits::class, FakePlanLimits::class);
 
-        FakePlanLimits::$responses = [false, $this->planLimitsData()];
+        FakePlanLimits::$responses = [
+            $this->planLimitsExceededData('user'),
+            $this->planLimitsData(),
+        ];
 
         $this->loginAs()
             ->get(route('users.create'))
             ->assertOk()
-            ->assertSee('Could not verify plan limit for user');
+            ->assertSee('Plan limit exceeded');
+
+        Cache::forget('plans.limits');
 
         $this->loginAs()
             ->get(route('users.create'))
             ->assertOk()
-            ->assertDontSee('Could not verify plan limit for user');
+            ->assertDontSee('Plan limit exceeded');
 
         $this->loginAs()
             ->get(route('companies.create'))
             ->assertOk()
-            ->assertDontSee('Could not verify plan limit for company');
+            ->assertDontSee('Plan limit exceeded');
 
         $this->loginAs()
             ->get(route('invoices.create'))
             ->assertOk()
-            ->assertDontSee('Could not verify plan limit for invoice');
+            ->assertDontSee('Plan limit exceeded');
     }
 
     protected function planLimitsData(): object
@@ -82,6 +87,15 @@ class PlanLimitsTest extends FeatureTestCase
             'company' => (object) ['action_status' => true, 'view_status' => true, 'message' => 'Success'],
             'invoice' => (object) ['action_status' => true, 'view_status' => true, 'message' => 'Success'],
         ];
+    }
+
+    protected function planLimitsExceededData(string $type): object
+    {
+        $data = $this->planLimitsData();
+        $data->$type->view_status = false;
+        $data->$type->message = 'Plan limit exceeded';
+
+        return $data;
     }
 }
 
