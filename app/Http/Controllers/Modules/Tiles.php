@@ -93,6 +93,72 @@ class Tiles extends Controller
         return $this->response('modules.tiles.index', compact('modules', 'title', 'keyword', 'installed'));
     }
 
+    /**
+     * Display a listing of the top paid apps.
+     *
+     * @return Response
+     */
+    public function paidModules()
+    {
+        $page = request('page', 1);
+
+        $data = [
+            'query' => [
+                'page' => $page,
+            ]
+        ];
+
+        $modules = $this->getPaidModules($data);
+        $title = trans('modules.top_paid');
+        $installed = Module::all()->pluck('enabled', 'alias')->toArray();
+
+        return $this->response('modules.tiles.index', compact('modules', 'title', 'installed'));
+    }
+
+    /**
+     * Display a listing of the newest apps.
+     *
+     * @return Response
+     */
+    public function newModules()
+    {
+        $page = request('page', 1);
+
+        $data = [
+            'query' => [
+                'page' => $page,
+            ]
+        ];
+
+        $modules = $this->getNewModules($data);
+        $title = trans('modules.new');
+        $installed = Module::all()->pluck('enabled', 'alias')->toArray();
+
+        return $this->response('modules.tiles.index', compact('modules', 'title', 'installed'));
+    }
+
+    /**
+     * Display a listing of the top free apps.
+     *
+     * @return Response
+     */
+    public function freeModules()
+    {
+        $page = request('page', 1);
+
+        $data = [
+            'query' => [
+                'page' => $page,
+            ]
+        ];
+
+        $modules = $this->getFreeModules($data);
+        $title = trans('modules.top_free');
+        $installed = Module::all()->pluck('enabled', 'alias')->toArray();
+
+        return $this->response('modules.tiles.index', compact('modules', 'title', 'installed'));
+    }
+
     public function loadMore($type, Request $request)
     {
         $page = $request->get('page', 1);

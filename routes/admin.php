@@ -214,6 +214,10 @@ Route::group(['as' => 'apps.', 'prefix' => 'apps'], function () {
 
     Route::resource('my', 'Modules\My');
 
+    Route::get('paid', 'Modules\Tiles@paidModules')->name('paid');
+    Route::get('new', 'Modules\Tiles@newModules')->name('new');
+    Route::get('free', 'Modules\Tiles@freeModules')->name('free');
+
     Route::get('categories/{alias}', 'Modules\Tiles@categoryModules')->name('categories.show');
     Route::get('vendors/{alias}', 'Modules\Tiles@vendorModules')->name('vendors.show');
     Route::get('docs/{alias}', 'Modules\Item@documentation')->name('docs.show');
