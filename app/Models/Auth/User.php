@@ -90,12 +90,27 @@ static::deleting(function (User $user) {
     }
 
     protected static function booted()
-    {
-        static::deleting(function ($user) {
-            $user->invitation?->delete();
-        });
-    }
+        
+    parent::boot();
 
+    // Manejo de company_ids
+    static::retrieved(function ($model) {
+        $model->setCompanyIds();
+    });
+
+    static::saving(function ($model) {
+        $model->unsetCompanyIds();
+    });
+
+    // Borrado en cascada (soft) de la invitación
+    static::deleting(function (User $user) {
+        optional($user->invitation)->delete();
+
+        if (method_exists($user, 'isForceDeleting') && $user->isForceDeleting()) {
+            optional($user->invitation)->forceDelete();
+        }
+    });
+    
     public function companies()
     {
         return $this->belongsToMany('App\Models\Common\Company', 'App\Models\Auth\UserCompany');
