@@ -18,7 +18,9 @@ class CreateUser extends Job implements HasOwner, HasSource, ShouldCreate
 
     public function handle()
     {
-        $this->authorize();
+        if (! config('app.offline')) {
+            $this->authorize();
+        }
 
         event(new UserCreating($this->request));
 
