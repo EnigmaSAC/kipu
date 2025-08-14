@@ -3,9 +3,12 @@
 namespace App\Models\Auth;
 
 use App\Abstracts\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class UserInvitation extends Model
 {
+    use SoftDeletes;
     /**
      * The table associated with the model.
      *
@@ -20,11 +23,11 @@ class UserInvitation extends Model
      *
      * @var string[]
      */
-    protected $fillable = ['user_id', 'token', 'created_from', 'created_by'];
+    protected $fillable = ['user_id', 'token', 'expires_at'];
 
-    public function user()
+    public function user(): BelongsTo
     {
-        return $this->belongsTo(user_model_class());
+        return $this->belongsTo(\App\Models\Auth\User::class, 'user_id');
     }
  
     /**
