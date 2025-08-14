@@ -89,14 +89,18 @@ trait Plans
     {
         $key = 'plans.limits';
 
-        return Cache::remember($key, Date::now()->addHour(), function () {
-            $url = 'plans/limits';
+        if (Cache::has($key)) {
+            return Cache::get($key);
+        }
 
-            if (! $data = static::getResponseData('GET', $url, ['timeout' => 10])) {
-                return false;
-            }
+        $url = 'plans/limits';
 
-            return $data;
-        });
+        if (! $data = static::getResponseData('GET', $url, ['timeout' => 10])) {
+            return false;
+        }
+
+        Cache::put($key, $data, Date::now()->addHour());
+
+        return $data;
     }
 }
