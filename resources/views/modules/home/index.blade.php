@@ -7,10 +7,13 @@
         <x-link href="{{ route('apps.my.index') }}">
             {{ trans('modules.my_apps') }}
         </x-link>
+        <x-link href="{{ route('apps.upload.form') }}">
+            {{ trans('modules.upload_title') }}
+        </x-link>
     </x-slot>
 
     <x-slot name="content">
-        <x-modules.banners />
+
     </x-slot>
 
     <x-script folder="modules" file="apps" />

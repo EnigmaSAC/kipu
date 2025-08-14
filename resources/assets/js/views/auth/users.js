@@ -36,6 +36,8 @@ const app = new Vue({
 
     mounted() {
        this.form.password = '';
+       this.form.password_confirmation = '';
+       this.form.send_invitation = 0;
     },
 
     methods: {
