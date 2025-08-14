@@ -80,4 +80,6 @@ return [
         'na'                => '没有评论。'
     ],
 
+    'upload_title' => 'Upload Module',
+    'upload_install' => 'Upload & Install',
 ];

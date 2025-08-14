@@ -80,4 +80,6 @@ return [
         'na'                => 'Det er ingen anmeldelser.'
     ],
 
+    'upload_title' => 'Upload Module',
+    'upload_install' => 'Upload & Install',
 ];

@@ -80,4 +80,6 @@ return [
         'na'                => 'प्रतिक्रिया उपलब्ध छैनन्|'
     ],
 
+    'upload_title' => 'Upload Module',
+    'upload_install' => 'Upload & Install',
 ];

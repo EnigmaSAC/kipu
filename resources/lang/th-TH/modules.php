@@ -80,4 +80,6 @@ return [
         ],
         'na' => 'ไม่มีการแสดงความคิดเ็น'
     ]
+    'upload_title' => 'Upload Module',
+    'upload_install' => 'Upload & Install',
 ];

@@ -135,4 +135,6 @@ return [
         'na'                => 'Aucune note.'
     ],
 
+    'upload_title' => 'Upload Module',
+    'upload_install' => 'Upload & Install',
 ];

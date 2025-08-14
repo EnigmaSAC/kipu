@@ -80,4 +80,6 @@ return [
         'na'                => 'Ülevaateid pole.'
     ],
 
+    'upload_title' => 'Upload Module',
+    'upload_install' => 'Upload & Install',
 ];

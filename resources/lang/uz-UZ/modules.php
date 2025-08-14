@@ -80,4 +80,6 @@ return [
         'na'                => 'U erda sharhlar yo\'q.'
     ],
 
+    'upload_title' => 'Upload Module',
+    'upload_install' => 'Upload & Install',
 ];

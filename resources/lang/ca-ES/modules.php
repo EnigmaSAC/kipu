@@ -133,4 +133,6 @@ return [
         'na'                => 'No hi ha ressenyes.'
     ],
 
+    'upload_title' => 'Upload Module',
+    'upload_install' => 'Upload & Install',
 ];

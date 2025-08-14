@@ -123,4 +123,6 @@ return [
         'na'                => 'Nema recenzija.'
     ],
 
+    'upload_title' => 'Upload Module',
+    'upload_install' => 'Upload & Install',
 ];

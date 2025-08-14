@@ -125,4 +125,6 @@ return [
         'na'                => 'No hay revisiones.'
     ],
 
+    'upload_title' => 'Upload Module',
+    'upload_install' => 'Upload & Install',
 ];

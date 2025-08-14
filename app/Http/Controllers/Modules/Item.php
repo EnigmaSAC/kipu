@@ -14,6 +14,7 @@ use App\Jobs\Install\UnzipFile;
 use App\Models\Module\Module;
 use App\Traits\Modules;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
 
 class Item extends Controller
 {
@@ -25,7 +26,7 @@ class Item extends Controller
     public function __construct()
     {
         // Add CRUD permission check
-        $this->middleware('permission:create-modules-item')->only('install');
+        $this->middleware('permission:create-modules-item')->only('install', 'showUploadForm', 'upload');
         $this->middleware('permission:update-modules-item')->only('update', 'enable', 'disable');
         $this->middleware('permission:delete-modules-item')->only('uninstall');
     }
@@ -154,6 +155,75 @@ class Item extends Controller
                 'success' => false,
                 'error' => true,
                 'message' => $e->getMessage(),
+                'data' => [],
+            ];
+        }
+
+        return response()->json($json);
+    }
+
+    public function showUploadForm()
+    {
+        return view('modules.item.upload');
+    }
+
+    public function upload(Request $request)
+    {
+        $request->validate([
+            'file' => 'required|file|mimes:zip',
+        ]);
+
+        try {
+            $path = 'temp-' . md5(mt_rand());
+            $temp_path = storage_path('app/temp/' . $path);
+
+            if (!File::isDirectory($temp_path)) {
+                File::makeDirectory($temp_path);
+            }
+
+            $request->file('file')->move($temp_path, 'upload.zip');
+
+            $this->dispatch(new UnzipFile('upload', $path));
+
+            $module_file = $temp_path . '/module.json';
+            $module_json = json_decode(File::get($module_file), true);
+            $alias = $module_json['alias'] ?? null;
+
+            if (empty($alias)) {
+                throw new \Exception(trans('modules.errors.finish', ['module' => '']));
+            }
+
+            $this->dispatch(new CopyFiles($alias, $path));
+
+            event(new \App\Events\Module\Installing($alias, company_id()));
+
+            $this->dispatch(new InstallModule($alias, company_id(), setting('default.locale')));
+
+            $name = module($alias)->getName();
+
+            $message = trans('modules.installed', ['module' => $name]);
+
+            flash($message)->success();
+
+            $json = [
+                'success' => true,
+                'error' => false,
+                'message' => null,
+                'redirect' => route('apps.app.show', $alias),
+                'data' => [
+                    'name' => $name,
+                    'alias' => $alias,
+                ],
+            ];
+        } catch (\Exception $e) {
+            $message = $e->getMessage();
+
+            flash($message)->error()->important();
+
+            $json = [
+                'success' => false,
+                'error' => true,
+                'message' => $message,
                 'data' => [],
             ];
         }
