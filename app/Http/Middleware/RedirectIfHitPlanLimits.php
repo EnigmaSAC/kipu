@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use App\Traits\Plans;
 use Closure;
+use Illuminate\Support\Facades\Log;
 
 class RedirectIfHitPlanLimits
 {
@@ -33,16 +34,28 @@ class RedirectIfHitPlanLimits
             return $next($request);
         }
 
-        if (! $this->getUserLimitOfPlan()->action_status) {
+        $user_limit = $this->getUserLimitOfPlan();
+        if (! $user_limit->action_status) {
             return redirect()->route('users.index');
         }
-
-        if (! $this->getCompanyLimitOfPlan()->action_status) {
-            return redirect()->route('companies.index');
+        if (! $user_limit->view_status) {
+            Log::warning($user_limit->message);
         }
 
-        if (! $this->getInvoiceLimitOfPlan()->action_status) {
+        $company_limit = $this->getCompanyLimitOfPlan();
+        if (! $company_limit->action_status) {
+            return redirect()->route('companies.index');
+        }
+        if (! $company_limit->view_status) {
+            Log::warning($company_limit->message);
+        }
+
+        $invoice_limit = $this->getInvoiceLimitOfPlan();
+        if (! $invoice_limit->action_status) {
             return redirect()->route('invoices.index');
+        }
+        if (! $invoice_limit->view_status) {
+            Log::warning($invoice_limit->message);
         }
 
         return $next($request);
