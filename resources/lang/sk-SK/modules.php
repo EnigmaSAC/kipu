@@ -77,6 +77,6 @@ return [
         ],
         'na' => 'Nie sú tu žiadne hodnotenia.'
     ]
-    'upload_title' => 'Upload Module',
+    'upload_title' => 'Upload App',
     'upload_install' => 'Upload & Install',
 ];
