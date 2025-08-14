@@ -1,3 +1,10 @@
+@php
+    $dropzoneOptions = $options ?? [];
+
+    if (! empty($attributes['accept'])) {
+        $dropzoneOptions['acceptedFiles'] = $attributes['accept'];
+    }
+@endphp
 <akaunting-dropzone-file-upload
     text-drop-file="{{ trans('general.form.drop_file') }}"
     text-choose-file="{{ trans('general.form.choose_file') }}"
@@ -6,8 +13,8 @@
     class="{{ $attributes['dropzone-class'] }}"
     @endif
 
-    @if (! empty($options))
-    :options={{ json_encode($options) }}
+    @if (! empty($dropzoneOptions))
+    :options={{ json_encode($dropzoneOptions) }}
     @endif
 
     @if (! empty($attributes['preview']))
