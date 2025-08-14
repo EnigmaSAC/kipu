@@ -34,6 +34,9 @@
     # Prevent Direct Access To modules/vendor Folders Except Assets
     RewriteRule ^(modules|vendor)/(.*)\.((?!ico|gif|jpg|jpeg|png|js\b|css|less|sass|font|woff|woff2|eot|ttf|svg|xls|xlsx).)*$ / [L,R=301]
 
+    # Serve PWA files from public directory
+    RewriteRule ^(serviceworker\.js|manifest\.json)$ public/$1 [L]
+
     # Redirect Trailing Slashes If Not A Folder...
     RewriteCond %{REQUEST_FILENAME} !-d
     RewriteRule ^(.*)/$ /$1 [L,R=301]
