@@ -7,6 +7,8 @@ use App\Jobs\Common\CreateContact;
 use App\Models\Common\Contact;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Log;
+use App\Http\Controllers\Sales\Customers as CustomersController;
 use Maatwebsite\Excel\Facades\Excel;
 use Tests\Feature\FeatureTestCase;
 
@@ -199,6 +201,24 @@ class CustomersTest extends FeatureTestCase
         Excel::assertImported('customers.xlsx');
 
         $this->assertFlashLevel('success');
+    }
+
+    public function testItLogsErrorWhenCreationFails()
+    {
+        Log::spy();
+
+        $request = $this->getRequest();
+        unset($request['name']);
+
+        $controller = new CustomersController();
+
+        $response = $controller->ajaxDispatch(new CreateContact($request));
+
+        $this->assertFalse($response['success']);
+        $this->assertTrue($response['error']);
+        $this->assertNotEmpty($response['message']);
+
+        Log::shouldHaveReceived('error')->once();
     }
 
     public function getRequest()
