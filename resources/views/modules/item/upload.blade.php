@@ -7,5 +7,6 @@
             <x-button type="submit">{{ trans('modules.upload_install') }}</x-button>
         </x-form>
     </x-slot>
+    <x-script folder="modules" file="apps" />
 </x-layouts.modules>
 
