@@ -44,8 +44,8 @@ jobs:
       - name: Compile assets
         run: npm run production
 
-      - name: Install Composer
-        run: composer test
+      - name: Install Composer dependencies
+        run: composer install --no-interaction --prefer-dist
 
       - name: Execute tests
         run: php artisan test --parallel
