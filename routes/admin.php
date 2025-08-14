@@ -211,9 +211,6 @@ Route::group(['as' => 'settings.'], function () {
 
 Route::group(['as' => 'apps.', 'prefix' => 'apps'], function () {
     Route::resource('home', 'Modules\Home');
-
-    Route::resource('my', 'Modules\My');
-
     Route::get('paid', 'Modules\Tiles@paidModules')->name('paid');
     Route::get('new', 'Modules\Tiles@newModules')->name('new');
     Route::get('free', 'Modules\Tiles@freeModules')->name('free');

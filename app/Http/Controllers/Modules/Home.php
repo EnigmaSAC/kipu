@@ -3,9 +3,12 @@
 namespace App\Http\Controllers\Modules;
 
 use App\Abstracts\Http\Controller;
+use App\Traits\Modules;
 
 class Home extends Controller
 {
+    use Modules;
+
     /**
      * Display a listing of the resource.
      *
@@ -13,7 +16,9 @@ class Home extends Controller
      */
     public function index()
     {
-        return $this->response('modules.home.index');
+        $installed = $this->getInstalledModules();
+
+        return $this->response('modules.home.index', compact('installed'));
     }
 
     /**
