@@ -4,7 +4,7 @@
     </x-slot>
 
     <x-slot name="buttons">
-        <x-link href="{{ route('apps.my.index') }}">
+        <x-link href="{{ route('apps.home.index') }}">
             {{ trans('modules.my_apps') }}
         </x-link>
     </x-slot>
