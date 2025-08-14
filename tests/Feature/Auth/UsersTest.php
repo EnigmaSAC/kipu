@@ -59,11 +59,12 @@ class UsersTest extends FeatureTestCase
             ->json();
 
         $user = user_model_class()::findOrFail($response['data']['id']);
+        $user->refresh();
 
         $this->assertFlashLevel('success');
 
         $this->assertModelExists($user);
-
+        $this->assertNotNull($user->invitation);
         $this->assertModelExists($user->invitation);
 
         Notification::assertSentTo([$user], Invitation::class);
@@ -84,7 +85,7 @@ class UsersTest extends FeatureTestCase
 
         $user = user_model_class()::findOrFail($response['data']['id']);
 
-        $this->assertDatabaseMissing('user_invitations', ['user_id' => $user->id]);
+        $this->assertDatabaseMissing((new \App\Models\Auth\UserInvitation)->getTable(), ['user_id' => $user->id]);
 
         Notification::assertNothingSent();
     }
@@ -104,7 +105,9 @@ class UsersTest extends FeatureTestCase
             ->json();
 
         $user = user_model_class()::findOrFail($response['data']['id']);
+        $user->refresh();
 
+        $this->assertNotNull($user->invitation);
         $this->assertModelExists($user->invitation);
 
         Notification::assertSentTo([$user], Invitation::class);
@@ -154,7 +157,7 @@ class UsersTest extends FeatureTestCase
 
         $this->assertSoftDeleted('users', $this->getAssertRequest($request));
 
-        $this->assertSoftDeleted('user_invitations', ['user_id' => $user->id]);
+        $this->assertSoftDeleted((new \App\Models\Auth\UserInvitation)->getTable(), ['user_id' => $user->id]);
     }
 
     public function testItShouldSeeLoginPage()
@@ -208,6 +211,8 @@ class UsersTest extends FeatureTestCase
 
         $user = $this->dispatch(new CreateUser($request));
 
+        $user->refresh();
+
         $this->get(route('register', ['token' => $user->invitation->token]))
             ->assertOk();
 
@@ -231,6 +236,8 @@ class UsersTest extends FeatureTestCase
 
         $password = $this->faker->password;
 
+        $user->refresh();
+
         $data = [
             'token' => $user->invitation->token,
             'password' => $password,
@@ -245,7 +252,7 @@ class UsersTest extends FeatureTestCase
 
         $this->assertFlashLevel('success');
 
-        $this->assertSoftDeleted('user_invitations', ['user_id' => $user->id]);
+        $this->assertSoftDeleted((new \App\Models\Auth\UserInvitation)->getTable(), ['user_id' => $user->id]);
 
         $this->isAuthenticated($user->user);
     }

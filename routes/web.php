@@ -9,8 +9,10 @@ use Livewire\Livewire;
  * @see \App\Providers\Route::mapWebRoutes
  */
 
- Livewire::setScriptRoute(function ($handle) {
-    $base = request()->getBasePath();
+if (! Route::has('livewire.scripts')) {
+    Livewire::setScriptRoute(function ($handle) {
+        $base = request()->getBasePath();
 
-    return Route::get($base . '/vendor/livewire/livewire/dist/livewire.min.js', $handle);
-});
+        return Route::get($base . '/vendor/livewire/livewire/dist/livewire.min.js', $handle);
+    });
+}

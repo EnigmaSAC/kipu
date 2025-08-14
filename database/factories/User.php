@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Abstracts\Factory;
+use App\Models\Auth\UserInvitation;
 use Illuminate\Support\Str;
 
 class User extends Factory
@@ -50,6 +51,16 @@ class User extends Factory
         ];
     }
 
+    public function configure()
+    {
+        return $this->afterCreating(function ($user) {
+            UserInvitation::firstOrCreate(
+                ['user_id' => $user->id],
+                ['token' => Str::random(40), 'expires_at' => now()->addDays(7)]
+            );
+        });
+    }
+
     /**
      * Indicate that the model is enabled.
      *
@@ -72,5 +83,12 @@ class User extends Factory
         return $this->state([
             'enabled' => 0,
         ]);
+    }
+
+    public function withoutInvitation()
+    {
+        return $this->afterCreating(function ($user) {
+            optional($user->invitation)->delete();
+        });
     }
 }

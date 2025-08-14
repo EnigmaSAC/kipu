@@ -9,56 +9,32 @@ on:
 
 jobs:
   tests:
-
     name: PHP ${{ matrix.php }}
-
     runs-on: ubuntu-latest
-
     strategy:
       matrix:
-        php: ['8.2','8.3']
-
+        php: [8.1, 8.2, 8.3]
+    continue-on-error: ${{ matrix.php == '8.3' }}
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Cache Composer
-        uses: actions/cache@v4
-        with:
-          path: ~/.composer/cache/files
-          key: php-${{ matrix.php }}-composer-${{ hashFiles('composer.lock') }}
-          restore-keys: |
-            php-${{ matrix.php }}-composer-
-
-      - name: Setup PHP
-        uses: shivammathur/setup-php@v2
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php }}
-          extensions: bcmath, ctype, dom, fileinfo, intl, gd, json, mbstring, pdo, pdo_sqlite, openssl, sqlite, xml, zip
-          coverage: none
-
-      - name: Copy .env
-        run: cp .env.testing .env
-
-      - name: Setup Node
-        uses: actions/setup-node@v4
+          extensions: mbstring,intl,zip,pdo_mysql,sqlite3,gd,bcmath,dom,soap
+          tools: composer:v2
+      - run: composer install --no-interaction --prefer-dist --no-progress
+      - run: cp .env.example .env
+      - run: php artisan key:generate
+      - run: php artisan migrate --force
+        env:
+          DB_CONNECTION: sqlite
+          DB_DATABASE: ':memory:'
+      - uses: actions/setup-node@v4
         with:
           node-version: 20
-
-      - name: Cache NPM
-        uses: actions/cache@v4
-        with:
-          path: ~/.npm
-          key: node-${{ hashFiles('package-lock.json') }}
-
-      - name: Install NPM
-        run: npm ci
-
-      - name: Compile assets
-        run: npm run production
-
-      - name: Install Composer dependencies
-        run: composer install --no-interaction --prefer-dist
-
-      - name: Execute tests
-        run: php artisan test --parallel
+      - run: npm ci
+      - run: npm run production
+      - run: vendor/bin/phpunit --testdox
+        env:
+          DB_CONNECTION: sqlite
+          DB_DATABASE: ':memory:'

@@ -99,7 +99,7 @@ class User extends Authenticatable implements HasLocalePreference
 
     public function invitation(): HasOne
     {
-        return $this->hasOne('App\Models\Auth\UserInvitation', 'user_id', 'id');
+        return $this->hasOne(\App\Models\Auth\UserInvitation::class, 'user_id', 'id');
     }
 
     public function roles()

@@ -18,7 +18,7 @@ class UserInvitationSoftDeleteTest extends FeatureTestCase
             ->delete(route('users.destroy', $user->id))
             ->assertOk();
 
-        $this->assertSoftDeleted('user_invitations', ['user_id' => $user->id]);
+        $this->assertSoftDeleted((new \App\Models\Auth\UserInvitation)->getTable(), ['user_id' => $user->id]);
     }
 }
 

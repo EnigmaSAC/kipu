@@ -61,6 +61,8 @@
     "devDependencies": {
         "@babel/core": "^7.23.5",
         "@babel/preset-env": "^7.23.5",
+        "@babel/plugin-proposal-class-properties": "npm:@babel/plugin-transform-class-properties@^7.24.0",
+        "@babel/plugin-proposal-object-rest-spread": "npm:@babel/plugin-transform-object-rest-spread@^7.24.0",
         "@vue/cli-plugin-babel": "^5.0.8",
         "@vue/cli-plugin-eslint": "^5.0.8",
         "@vue/cli-service": "^5.0.8",
@@ -76,7 +78,7 @@
         "postcss-loader": "^7.2.4",
         "postcss-nesting": "^11.2.2",
         "postcss-preset-env": "^8.3.1",
-        "sass": "^1.90.0",
+        "sass": "^1.77.0",
         "sass-loader": "^16.0.5",
         "style-loader": "^3.3.2",
         "tailwindcss-dir": "^4.0.0",
@@ -96,7 +98,11 @@
         "express": "^4.19.2",
         "body-parser": "^1.20.3",
         "amqplib": "^0.10.8",
-        "uuid": "^9.0.1"
+        "uuid": "^9.0.1",
+        "glob": "^9.3.5",
+        "rimraf": "^5.0.7",
+        "@babel/plugin-proposal-class-properties": "npm:@babel/plugin-transform-class-properties@^7.24.0",
+        "@babel/plugin-proposal-object-rest-spread": "npm:@babel/plugin-transform-object-rest-spread@^7.24.0"
     },
     "browserslist": [
         "> 1%",
