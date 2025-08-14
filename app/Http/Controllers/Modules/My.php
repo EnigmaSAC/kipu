@@ -16,9 +16,8 @@ class My extends Controller
      */
     public function index()
     {
-        $purchase = $this->getMyModules(['query' => ['limit' => 16]]);
         $installed = $this->getInstalledModules();
 
-        return $this->response('modules.my.index', compact('purchase', 'installed'));
+        return $this->response('modules.my.index', compact('installed'));
     }
 }

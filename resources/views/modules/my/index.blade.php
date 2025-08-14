@@ -10,10 +10,8 @@
     </x-slot>
 
     <x-slot name="content">
-        @if (! empty($purchase) || ! empty($installed))
-            <x-modules.purchased />
-
-            <x-modules.installed />
+        @if (! empty($installed))
+            <x-modules.installed :modules="$installed" />
         @else
             <div class="py-6 font-medium">
                 <div class="flex items-center justify-between mb-5 lg:mb-0">
