@@ -1,14 +1,14 @@
-# Deployment and Localization
+# Despliegue y localización
 
-## Disable Remote Integrations
+## Desactivar integraciones remotas
 
-Administrators can disable outbound connections to the Akaunting API by clearing the `akaunting_api_url` setting. This is useful for local installations or environments without internet access.
+Los administradores pueden deshabilitar las conexiones salientes a la API de Akaunting limpiando el ajuste `akaunting_api_url`. Esto es útil para instalaciones locales o entornos sin acceso a Internet.
 
-Edit your `.env` file and set:
+Edite su archivo `.env` y establezca:
 
 ```
 AKAUNTING_API_URL=
 ```
 
-When this value is empty, the application will skip all requests made through `SiteApi`, effectively disabling remote integrations. The default value is `https://api.akaunting.com/`.
+Cuando este valor está vacío, la aplicación omitirá todas las solicitudes realizadas a través de `SiteApi`, desactivando efectivamente las integraciones remotas. El valor predeterminado es `https://api.akaunting.com/`.
 
