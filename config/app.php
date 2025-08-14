@@ -22,6 +22,8 @@ return [
 
     'eager_load' => (bool) env('APP_EAGER_LOAD', true),
 
+    'offline' => (bool) env('APP_OFFLINE', false),
+
     'throttles' => [
         'api' => env('APP_THROTTLES_API', '60'),
         'import' => env('APP_THROTTLES_IMPORT', '1'),

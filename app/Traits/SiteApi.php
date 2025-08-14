@@ -15,7 +15,7 @@ trait SiteApi
 
     protected static function siteApiRequest($method, $path, $extra_data = [])
     {
-        if (empty(Info::getApiKey())) {
+        if (config('app.offline') || empty(Info::getApiKey())) {
             return null;
         }
 
