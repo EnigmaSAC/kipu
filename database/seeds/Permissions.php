@@ -48,7 +48,6 @@ class Permissions extends Seeder
                 'sales-customers' => 'c,r,u,d',
                 'sales-invoices' => 'c,r,u,d',
                 'install-updates' => 'r,u',
-                'modules-api-key' => 'c,u',
                 'modules-home' => 'r',
                 'modules-item' => 'c,r,u,d',
                 'modules-my' => 'r',

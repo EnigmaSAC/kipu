@@ -4,8 +4,6 @@ namespace App\View\Components\Layouts\Modules;
 
 use App\Abstracts\View\Component;
 use App\Traits\Modules;
-use App\Utilities\Date;
-use Illuminate\Support\Facades\Cache;
 
 class Bar extends Component
 {
@@ -47,13 +45,6 @@ class Bar extends Component
         $categories = collect([
             '*' => trans('general.all_type', ['type' => trans_choice('general.categories', 2)]),
         ]);
-
-        if (setting('apps.api_key')) {
-            $categories = Cache::remember('modules.categories.' . language()->getShortCode(), Date::now()->addHour(6), function () {
-                return collect($this->getCategoriesOfModules())->pluck('name', 'slug')
-                    ->prepend(trans('general.all_type', ['type' => trans_choice('general.categories', 2)]), '*');
-            });
-        }
 
         return $categories;
     }
