@@ -6,7 +6,7 @@ Software de contabilidad en línea diseñado para pequeñas empresas y freelance
 
 ## Requisitos
 
-* PHP 8.1 o superior
+* PHP 8.1–8.3
 * Base de datos (ej.: MariaDB, MySQL, PostgreSQL, SQLite)
 * Servidor web (ej.: Apache, Nginx, IIS)
 * [Otras librerías](https://akaunting.com/hc/docs/on-premise/requirements/)
@@ -37,3 +37,14 @@ Al contribuir código a Akaunting, debes seguir los estándares de codificación
 ## Traducción
 
 Si deseas contribuir traducciones, visita nuestro proyecto en [Crowdin](https://crowdin.com/project/akaunting).
+
+## Tests
+
+Soporte oficial para PHP 8.1–8.3 y Node 18/20. Para ejecutar las pruebas localmente:
+
+```bash
+composer install
+npm install
+php artisan migrate --seed
+php artisan test
+```
