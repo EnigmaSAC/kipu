@@ -13,7 +13,7 @@
     "license": "BUSL-1.1",
     "type": "project",
     "require": {
-        "php": "^8.1|^8.2|^8.3",
+        "php": "^8.1|^8.2|^8.3|^8.4",
         "ext-bcmath": "*",
         "ext-ctype": "*",
         "ext-curl": "*",
@@ -79,7 +79,6 @@
     },
     "require-dev": {
         "beyondcode/laravel-dump-server": "^1.9",
-        "brianium/paratest": "^7.1",
         "fakerphp/faker": "^1.9.1",
         "mockery/mockery": "^1.4.4",
         "nunomaduro/collision": "^7.0",
@@ -155,10 +154,7 @@
             "composer install --prefer-dist --no-interaction --no-scripts --no-progress --no-ansi --no-dev",
             "composer dump-autoload"
         ],
-        "test": [
-            "composer install --prefer-dist --no-interaction --no-scripts --no-progress --no-ansi",
-            "composer dump-autoload"
-        ]
+        "test": "vendor/bin/phpunit"
     },
     "config": {
         "optimize-autoloader": true,
