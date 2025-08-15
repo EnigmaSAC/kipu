@@ -292,11 +292,11 @@ const app = new Vue({
                     this.page[type]++;
 
                     document.querySelector('.js-'+ type + '-content').innerHTML += response.data.html;
-
-                    this.loadMoreLoading = false;
                 }
             })
             .catch(error => {
+            })
+            .finally(() => {
                 this.loadMoreLoading = false;
             });
         },
