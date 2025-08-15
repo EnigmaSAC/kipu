@@ -1,8 +1,5 @@
 @php
     $dropzoneOptions = $options ?? [];
-
-    if ($attributes->has('accept') && empty($dropzoneOptions['acceptedFiles'])) {
-        $dropzoneOptions['acceptedFiles'] = $attributes->get('accept');
     }
 @endphp
 <akaunting-dropzone-file-upload
