@@ -1,10 +1,12 @@
 @php
     $dropzoneOptions = $options ?? [];
 
+    // Si el componente recibe 'accept', propágalo a Dropzone como 'acceptedFiles'
     if ($attributes->has('accept') && ! array_key_exists('acceptedFiles', $dropzoneOptions)) {
         $dropzoneOptions['acceptedFiles'] = $attributes->get('accept');
     }
 @endphp
+
 <akaunting-dropzone-file-upload
     text-drop-file="{{ trans('general.form.drop_file') }}"
     text-choose-file="{{ trans('general.form.choose_file') }}"
