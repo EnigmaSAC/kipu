@@ -1,3 +1,10 @@
+@php
+    $dropzoneOptions = $options ?? [];
+
+    if ($attributes->has('accept') && ! array_key_exists('acceptedFiles', $dropzoneOptions)) {
+        $dropzoneOptions['acceptedFiles'] = $attributes->get('accept');
+    }
+@endphp
 <akaunting-dropzone-file-upload
     text-drop-file="{{ trans('general.form.drop_file') }}"
     text-choose-file="{{ trans('general.form.choose_file') }}"
@@ -6,12 +13,12 @@
     class="{{ $attributes['dropzone-class'] }}"
     @endif
 
-    @if (! empty($options))
-    :options={{ json_encode($options) }}
+    @if (! empty($dropzoneOptions))
+    :options='@json($dropzoneOptions)'
     @endif
 
     @if (! empty($attributes['preview']))
-    :preview={{ json_encode($attributes['preview']) }}
+    :preview='@json($attributes['preview'])'
     @endif
 
     @if (! empty($multiple))
@@ -76,7 +83,7 @@
             @endphp
         @endif
 
-    :attachments="{{ json_encode($attachments) }}"
+    :attachments='@json($attachments)'
     @endif
 
     v-model="{{ ! empty($attributes['v-model']) ? $attributes['v-model'] : (! empty($attributes['data-field']) ? 'form.' . $attributes['data-field'] . '.'. $name : 'form.' . $name) }}"
