@@ -305,7 +305,7 @@ const app = new Vue({
             let el = this.$refs.liveSearchModal;
             let target = event.target;
 
-            if (el !== target && target.contains(el)) {
+            if (el && !el.contains(target)) {
                 this.live_search.modal = false;
             }
         },
