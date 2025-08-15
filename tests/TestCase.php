@@ -14,6 +14,10 @@ abstract class TestCase extends BaseTestCase
     {
         parent::setUp();
 
+        config(['app.offline' => true]);
+
+        $this->withoutMiddleware([\App\Http\Middleware\RedirectIfHitPlanLimits::class]);
+
         $this->artisan('db:seed', ['--class' => '\Database\Seeds\TestCompany', '--force' => true]);
     }
 }
