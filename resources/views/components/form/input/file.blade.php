@@ -1,7 +1,7 @@
 @php
     $dropzoneOptions = $options ?? [];
 
-    if ($attributes->has('accept') && empty($dropzoneOptions['acceptedFiles'])) {
+    if ($attributes->has('accept') && ! array_key_exists('acceptedFiles', $dropzoneOptions)) {
         $dropzoneOptions['acceptedFiles'] = $attributes->get('accept');
     }
 @endphp
