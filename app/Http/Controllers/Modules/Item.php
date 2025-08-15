@@ -215,20 +215,18 @@ class Item extends Controller
                     'alias' => $alias,
                 ],
             ];
+            return response()->json($json);
         } catch (\Exception $e) {
             $message = $e->getMessage();
 
             flash($message)->error()->important();
 
-            $json = [
-                'success' => false,
-                'error' => true,
-                'message' => $message,
-                'data' => [],
-            ];
+            return response()->json([
+                'errors' => [
+                    'file' => [$message],
+                ],
+            ], 422);
         }
-
-        return response()->json($json);
     }
 
     /**
