@@ -6,6 +6,7 @@ services:
       - "8000:80"
     volumes:
       - .:/var/www/html
+    command: bash -c "if [ ! -d vendor ]; then composer install; fi && apache2-foreground"
     environment:
       APP_URL: http://localhost:8000
       DB_HOST: db
