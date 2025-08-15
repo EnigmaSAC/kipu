@@ -44,7 +44,6 @@ const app = new Vue({
         return {
             keyword: '',
             form: new Form('form-app'),
-            page: 2,
             current_page: 1,
 
             releases: {
