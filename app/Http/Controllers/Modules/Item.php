@@ -175,7 +175,8 @@ class Item extends Controller
 
         try {
             $path = 'temp-' . md5(mt_rand());
-            $temp_path = storage_path('app/temp/' . $path);
+            $relative_path = $path;
+            $temp_path = storage_path('app/temp/' . $relative_path);
 
             if (!File::isDirectory($temp_path)) {
                 File::makeDirectory($temp_path);
@@ -183,9 +184,24 @@ class Item extends Controller
 
             $request->file('file')->move($temp_path, 'upload.zip');
 
-            $this->dispatch(new UnzipFile('upload', $path));
+            $this->dispatch(new UnzipFile('upload', $relative_path));
 
             $module_file = $temp_path . '/module.json';
+
+            if (!File::exists($module_file)) {
+                $directories = File::directories($temp_path);
+
+                if (count($directories) === 1) {
+                    $relative_path .= '/' . basename($directories[0]);
+                    $temp_path = storage_path('app/temp/' . $relative_path);
+                    $module_file = $temp_path . '/module.json';
+                }
+            }
+
+            if (!File::exists($module_file)) {
+                throw new \Exception(trans('modules.errors.finish', ['module' => '']));
+            }
+
             $module_json = json_decode(File::get($module_file), true);
             $alias = $module_json['alias'] ?? null;
 
@@ -193,7 +209,7 @@ class Item extends Controller
                 throw new \Exception(trans('modules.errors.finish', ['module' => '']));
             }
 
-            $this->dispatch(new CopyFiles($alias, $path));
+            $this->dispatch(new CopyFiles($alias, $relative_path));
 
             event(new \App\Events\Module\Installing($alias, company_id()));
 
