@@ -1,0 +1,20 @@
+{
+    "alias": "custom-fields",
+    "icon": "fa fa-angle-double-right",
+    "version": "3.1.15",
+    "active": 1,
+    "providers": [
+        "Modules\\CustomFields\\Providers\\DynamicRelations",
+        "Modules\\CustomFields\\Providers\\Event",
+        "Modules\\CustomFields\\Providers\\Main",
+        "Modules\\CustomFields\\Providers\\Observer",
+        "Modules\\CustomFields\\Providers\\Validation",
+        "Modules\\CustomFields\\Providers\\ViewComposer"
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": [],
+    "reports": [],
+    "widgets": [],
+    "settings": []
+}
