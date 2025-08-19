@@ -29,9 +29,9 @@ jobs:
         env:
           DB_CONNECTION: sqlite
           DB_DATABASE: ':memory:'
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 20
+        - uses: actions/setup-node@v4
+          with:
+            node-version: 18
       - run: npm ci
       - run: npm run production
       - run: vendor/bin/phpunit --testdox
