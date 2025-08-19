@@ -3,12 +3,12 @@
     "icon": "fas fa-font",
     "version": "2.0.2",
     "category": "accounting",
-    "active": 1,
+    "active": true,
     "providers": [
         "Modules\\AmountInWords\\Providers\\Main",
         "Modules\\AmountInWords\\Providers\\ViewComposer"
     ],
-    "aliases": {},
+    "aliases": [],
     "files": [],
     "requires": [],
     "reports": [],

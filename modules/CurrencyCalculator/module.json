@@ -3,11 +3,11 @@
     "icon": "fas fa-forward",
     "version": "2.0.3",
     "category": "widget",
-    "active": 1,
+    "active": true,
     "providers": [
         "Modules\\CurrencyCalculator\\Providers\\Main"
     ],
-    "aliases": {},
+    "aliases": [],
     "files": [],
     "requires": [],
     "reports": [],

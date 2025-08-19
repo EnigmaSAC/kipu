@@ -1,19 +1,24 @@
 <?php
-
 return [
-
-    // Usa nuestro activador
-    'activator' => App\Utilities\ModuleActivator::class,
-
-    // Ruta de módulos
-    'paths' => [
-        'modules' => base_path('modules'),
+    "cache" => [
+        "enabled"  => true,
+        "key"      => "module",
+        "lifetime" => null,
     ],
 
-    // Cache básica para estados de módulos
-    'cache' => [
-        'enabled'  => true,
-        'key'      => 'module',
-        'lifetime' => 60,
+    "paths" => [
+        "modules" => base_path("modules"),
+        "generator" => [
+            "config"    => "Config",
+            "migration" => "Database/Migrations",
+            "seeder"    => "Database/Seeders",
+            "factory"   => "Database/Factories",
+            "command"   => "Console",
+            "route"     => "Routes",
+            "provider"  => "Providers",
+            "assets"    => "Resources/assets",
+            "lang"      => "Resources/lang",
+            "views"     => "Resources/views",
+        ],
     ],
 ];

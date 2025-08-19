@@ -2,13 +2,13 @@
     "alias": "dynamic-document-notes",
     "icon": "fa fa-document",
     "version": "1.0.1",
-    "active": 1,
+    "active": true,
     "providers": [
         "Modules\\DynamicDocumentNotes\\Providers\\Main",
         "Modules\\DynamicDocumentNotes\\Providers\\Event",
         "Modules\\DynamicDocumentNotes\\Providers\\ViewComposer"
     ],
-    "aliases": {},
+    "aliases": [],
     "files": [],
     "requires": [],
     "reports": [],

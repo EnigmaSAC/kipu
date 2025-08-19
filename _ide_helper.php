@@ -20987,9 +20987,6 @@ namespace Akaunting\Module {
                         \Akaunting\Module\Laravel\LaravelFileRepository::flushMacros();
         }
             }
-            /**
-     */        class Collection {
-            }
     }
 
 namespace Akaunting\Setting {

@@ -1,0 +1,13 @@
+{
+    "amount-in-words": true,
+    "composite-items": true,
+    "currency-calculator": true,
+    "custom-fields": true,
+    "dynamic-document-notes": true,
+    "employees": true,
+    "estimates": true,
+    "offline-payments": true,
+    "paypal-standard": true,
+    "sales-metrics": true,
+    "woocommerce": true
+}

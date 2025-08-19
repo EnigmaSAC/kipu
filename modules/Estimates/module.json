@@ -3,14 +3,14 @@
     "version": "3.0.12",
     "category": "accounting",
     "icon": "check",
-    "active": 1,
+    "active": true,
     "providers": [
         "Modules\\Estimates\\Providers\\Event",
         "Modules\\Estimates\\Providers\\Main",
         "Modules\\Estimates\\Providers\\Observer",
         "Modules\\Estimates\\Providers\\ViewComposer"
     ],
-    "aliases": {},
+    "aliases": [],
     "files": [],
     "requires": [],
     "reports": [
@@ -18,5 +18,5 @@
     ],
     "settings": [],
     "widgets": [],
-    "migration": "Database/Migrations"
+    "migration": "Database\/Migrations"
 }

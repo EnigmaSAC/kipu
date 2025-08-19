@@ -2,12 +2,12 @@
     "alias": "offline-payments",
     "icon": "credit_card",
     "version": "3.0.4",
-    "active": 1,
+    "active": true,
     "providers": [
         "Modules\\OfflinePayments\\Providers\\Event",
         "Modules\\OfflinePayments\\Providers\\Main"
     ],
-    "aliases": {},
+    "aliases": [],
     "files": [],
     "requires": [],
     "reports": [],

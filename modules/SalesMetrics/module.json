@@ -3,12 +3,12 @@
     "icon": "fa fa-cog",
     "version": "3.0.1",
     "category": "widget",
-    "active": 1,
+    "active": true,
     "providers": [
         "Modules\\SalesMetrics\\Providers\\Event",
         "Modules\\SalesMetrics\\Providers\\Main"
     ],
-    "aliases": {},
+    "aliases": [],
     "files": [],
     "requires": [],
     "reports": [],

@@ -2,12 +2,12 @@
     "alias": "employees",
     "icon": "fa fa-users",
     "version": "2.0.15",
-    "active": 1,
+    "active": true,
     "providers": [
         "Modules\\Employees\\Providers\\Event",
         "Modules\\Employees\\Providers\\Main"
     ],
-    "aliases": {},
+    "aliases": [],
     "files": [],
     "requires": [],
     "reports": [],
@@ -17,5 +17,5 @@
         "Modules\\Employees\\Widgets\\EmployeeGender"
     ],
     "settings": [],
-    "migration": "Database/Migrations"
+    "migration": "Database\/Migrations"
 }

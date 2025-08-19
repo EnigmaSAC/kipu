@@ -2,7 +2,7 @@
     "alias": "custom-fields",
     "icon": "fa fa-angle-double-right",
     "version": "3.1.15",
-    "active": 1,
+    "active": true,
     "providers": [
         "Modules\\CustomFields\\Providers\\DynamicRelations",
         "Modules\\CustomFields\\Providers\\Event",
@@ -17,8 +17,8 @@
     "reports": [],
     "widgets": [],
     "settings": [],
-    "migration": "Database/Migrations",
+    "migration": "Database\/Migrations",
     "paths": {
-        "seeder": "Database/seeders"
+        "seeder": "Database\/seeders"
     }
 }

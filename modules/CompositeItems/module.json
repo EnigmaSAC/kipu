@@ -3,17 +3,17 @@
     "icon": "group_work",
     "version": "2.0.8",
     "category": "inventory",
-    "active": 1,
+    "active": true,
     "providers": [
         "Modules\\CompositeItems\\Providers\\Event",
         "Modules\\CompositeItems\\Providers\\Main",
         "Modules\\CompositeItems\\Providers\\Observer"
     ],
-    "aliases": {},
+    "aliases": [],
     "files": [],
     "requires": [],
     "reports": [],
     "widgets": [],
     "settings": [],
-    "migration": "Database/Migrations"
+    "migration": "Database\/Migrations"
 }

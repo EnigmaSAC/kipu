@@ -2,13 +2,13 @@
     "alias": "woocommerce",
     "version": "3.0.11",
     "category": "ecommerce",
-    "active": 1,
+    "active": true,
     "providers": [
         "Modules\\Woocommerce\\Providers\\Event",
         "Modules\\Woocommerce\\Providers\\Main",
         "Modules\\Woocommerce\\Providers\\Observer"
     ],
-    "aliases": {},
+    "aliases": [],
     "files": [],
     "requires": [],
     "reports": [],
@@ -17,5 +17,5 @@
     "extra-modules": {
         "inventory": "suggested"
     },
-    "migration": "Database/Migrations"
+    "migration": "Database\/Migrations"
 }
