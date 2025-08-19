@@ -81,10 +81,10 @@ class Install extends Command
 
         DB::transaction(function () {
             $this->line('Creating company');
-            Installer::createCompany($this->company_name, $this->company_email, $this->locale);
+            $company = Installer::createCompany($this->company_name, $this->company_email, $this->locale);
 
             $this->line('Creating admin');
-            Installer::createUser($this->admin_email, $this->admin_password, $this->locale);
+            Installer::createUser($this->admin_email, $this->admin_password, $this->locale, $company->id);
         });
 
         $this->line('Applying the final touches');

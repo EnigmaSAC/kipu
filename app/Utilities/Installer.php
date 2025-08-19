@@ -236,7 +236,7 @@ class Installer
 
     public static function createCompany($name, $email, $locale)
     {
-        dispatch_sync(new CreateCompany([
+        return dispatch_sync(new CreateCompany([
             'name' => $name,
             'domain' => '',
             'email' => $email,
@@ -246,14 +246,14 @@ class Installer
         ]));
     }
 
-    public static function createUser($email, $password, $locale)
+    public static function createUser($email, $password, $locale, $company_id)
     {
         dispatch_sync(new CreateUser([
             'name' => '',
             'email' => $email,
             'password' => $password,
             'locale' => $locale,
-            'companies' => ['1'],
+            'companies' => [$company_id],
             'roles' => ['1'],
             'enabled' => '1',
         ]));
