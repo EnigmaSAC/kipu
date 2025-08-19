@@ -161,7 +161,7 @@ class Installer
         Artisan::call('migrate', ['--force' => true]);
 
         // Create Permissions
-        Artisan::call('db:seed', ['--class' => 'Database\Seeds\Permissions', '--force' => true]);
+        Artisan::call('db:seed', ['--class' => 'Database\Seeders\Permissions', '--force' => true]);
 
         return true;
     }

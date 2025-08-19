@@ -29,7 +29,7 @@ class CompanySeed extends Command
      */
     public function handle()
     {
-        $class_name = $this->input->getOption('class') ?? 'Database\Seeds\Company';
+        $class_name = $this->input->getOption('class') ?? 'Database\Seeders\Company';
 
         $class = $this->laravel->make($class_name);
 
@@ -44,7 +44,7 @@ class CompanySeed extends Command
     protected function getOptions()
     {
         return [
-            ['class', null, InputOption::VALUE_OPTIONAL, 'The class name of the root seeder', 'Database\Seeds\Company'],
+            ['class', null, InputOption::VALUE_OPTIONAL, 'The class name of the root seeder', 'Database\Seeders\Company'],
         ];
     }
 }

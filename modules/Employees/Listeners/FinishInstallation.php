@@ -39,7 +39,7 @@ class FinishInstallation
     {
         Artisan::call('company:seed', [
             'company' => company_id(),
-            '--class' => 'Modules\Employees\Database\Seeds\EmployeesDatabaseSeeder',
+            '--class' => 'Modules\Employees\Database\Seeders\EmployeesDatabaseSeeder',
         ]);
     }
 }

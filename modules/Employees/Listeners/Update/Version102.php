@@ -27,7 +27,7 @@ class Version102 extends Listener
     {
         Artisan::call('company:seed', [
             'company' => company_id(),
-            '--class' => 'Modules\Employees\Database\Seeds\Permissions',
+            '--class' => 'Modules\Employees\Database\Seeders\Permissions',
         ]);
     }
 }

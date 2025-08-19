@@ -11,9 +11,9 @@ use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Schema;
-use Modules\Estimates\Database\Seeds\CustomFields;
-use Modules\Estimates\Database\Seeds\EmailTemplates;
-use Modules\Estimates\Database\Seeds\Reports;
+use Modules\Estimates\Database\Seeders\CustomFields;
+use Modules\Estimates\Database\Seeders\EmailTemplates;
+use Modules\Estimates\Database\Seeders\Reports;
 
 class Version200 extends Listener
 {

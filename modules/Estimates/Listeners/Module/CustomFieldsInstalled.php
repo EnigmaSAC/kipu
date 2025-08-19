@@ -4,7 +4,7 @@ namespace Modules\Estimates\Listeners\Module;
 
 use App\Events\Module\Installed as Event;
 use Artisan;
-use Modules\Estimates\Database\Seeds\CustomFields;
+use Modules\Estimates\Database\Seeders\CustomFields;
 
 class CustomFieldsInstalled
 {

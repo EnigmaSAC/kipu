@@ -32,7 +32,7 @@ class FinishInstallation
     {
         Artisan::call('company:seed', [
             'company' => company_id(),
-            '--class' => 'Modules\CompositeItems\Database\Seeds\Install',
+            '--class' => 'Modules\CompositeItems\Database\Seeders\Install',
         ]);
     }
 }
