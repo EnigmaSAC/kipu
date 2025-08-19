@@ -28,7 +28,7 @@ class InstallModule
     {
         Artisan::call('company:seed', [
             'company' => company_id(),
-            '--class' => 'Modules\SalesMetrics\Database\Seeds\Install',
+            '--class' => 'Modules\SalesMetrics\Database\Seeders\Install',
         ]);
     }
 }

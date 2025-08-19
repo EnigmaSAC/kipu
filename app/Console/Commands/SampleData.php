@@ -2,7 +2,7 @@
 
 namespace App\Console\Commands;
 
-use Database\Seeds\SampleData as SampleDataSeeder;
+use Database\Seeders\SampleData as SampleDataSeeder;
 use Illuminate\Console\Command;
 
 class SampleData extends Command

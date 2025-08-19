@@ -18,6 +18,6 @@ abstract class TestCase extends BaseTestCase
 
         $this->withoutMiddleware([\App\Http\Middleware\RedirectIfHitPlanLimits::class]);
 
-        $this->artisan('db:seed', ['--class' => '\Database\Seeds\TestCompany', '--force' => true]);
+        $this->artisan('db:seed', ['--class' => '\Database\Seeders\TestCompany', '--force' => true]);
     }
 }

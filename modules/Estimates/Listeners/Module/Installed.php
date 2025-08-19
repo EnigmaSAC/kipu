@@ -4,7 +4,7 @@ namespace Modules\Estimates\Listeners\Module;
 
 use App\Events\Module\Installed as Event;
 use Artisan;
-use Modules\Estimates\Database\Seeds\Install;
+use Modules\Estimates\Database\Seeders\Install;
 
 class Installed
 {

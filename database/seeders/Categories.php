@@ -1,6 +1,6 @@
 <?php
 
-namespace Database\Seeds;
+namespace Database\Seeders;
 
 use App\Abstracts\Model;
 use App\Jobs\Setting\CreateCategory;

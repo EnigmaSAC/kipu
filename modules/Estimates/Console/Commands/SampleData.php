@@ -2,7 +2,7 @@
 
 namespace Modules\Estimates\Console\Commands;
 
-use Modules\Estimates\Database\Seeds\SampleData as SampleDataSeeder;
+use Modules\Estimates\Database\Seeders\SampleData as SampleDataSeeder;
 use Illuminate\Console\Command;
 
 class SampleData extends Command
