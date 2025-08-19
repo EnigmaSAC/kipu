@@ -73,13 +73,19 @@ class CreateCompany extends Job implements HasOwner, HasSource, ShouldCreate
         Artisan::call('company:seed', [
             'company' => $this->model->id
         ]);
-
-        if (!$user = user()) {
-            return;
+        
+        if (! $user = user()) {
+            // Register a default user and attach it to the company
+            $user = $this->dispatch(new \App\Jobs\Auth\CreateUser([
+                'name' => $this->request->get('name'),
+                'email' => $this->request->get('email'),
+                'enabled' => '1',
+                'companies' => [$this->model->id],
+            ]));
+        } else {
+            // Attach company to user logged in
+            $user->companies()->attach($this->model->id);
         }
-
-        // Attach company to user logged in
-        $user->companies()->attach($this->model->id);
 
         // User seeds
         Artisan::call('user:seed', [

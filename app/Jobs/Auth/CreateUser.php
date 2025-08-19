@@ -22,6 +22,10 @@ class CreateUser extends Job implements HasOwner, HasSource, ShouldCreate
             $this->authorize();
         }
 
+        if (user_model_class()::count() === 0 && ! $this->request->has('companies') && company_id()) {
+            $this->request->merge(['companies' => [company_id()]]);
+        }
+
         event(new UserCreating($this->request));
 
         \DB::transaction(function () {
@@ -51,7 +55,7 @@ class CreateUser extends Job implements HasOwner, HasSource, ShouldCreate
             }
 
             if ($this->request->has('companies')) {
-                if (app()->runningInConsole() || request()->isInstall()) {
+                if (app()->runningInConsole() || request()->isInstall() || ! user()) {
                     $this->model->companies()->attach($this->request->get('companies'));
                 } else {
                     $user = user();
