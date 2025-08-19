@@ -26,22 +26,24 @@ class Modules extends Seeder
     {
         $company_id = $this->command->argument('company');
 
-        Artisan::call('module:install', [
-            'alias'     => 'offline-payments',
-            'company'   => $company_id,
-            'locale'    => session('locale', company($company_id)->locale),
-        ]);
+        $exclude = [
+            // Add module aliases here that should not be installed globally
+        ];
 
-        Artisan::call('module:install', [
-            'alias'     => 'paypal-standard',
-            'company'   => $company_id,
-            'locale'    => session('locale', company($company_id)->locale),
-        ]);
+        $modules = module()->all();
 
-        Artisan::call('module:install', [
-            'alias'     => 'custom-fields',
-            'company'   => $company_id,
-            'locale'    => session('locale', company($company_id)->locale),
-        ]);
+        foreach ($modules as $module) {
+            $alias = $module->getAlias();
+
+            if (in_array($alias, $exclude)) {
+                continue;
+            }
+
+            Artisan::call('module:install', [
+                'alias'     => $alias,
+                'company'   => $company_id,
+                'locale'    => session('locale', company($company_id)->locale),
+            ]);
+        }
     }
 }
