@@ -7,7 +7,7 @@
         "Modules\\PaypalStandard\\Providers\\Event",
         "Modules\\PaypalStandard\\Providers\\Main"
     ],
-    "aliases": {},
+    "aliases": [],
     "files": [],
     "requires": [],
     "reports": [],
@@ -76,7 +76,7 @@
             "name": "order",
             "title": "paypal-standard::general.form.order",
             "icon": "sort",
-            "attributes": {},
+            "attributes": [],
             "rules": "nullable|integer"
         },
         {
@@ -85,7 +85,7 @@
             "title": "paypal-standard::general.form.customer",
             "enable": "general.yes",
             "disable": "general.no",
-            "attributes": {},
+            "attributes": [],
             "rules": "required|integer"
         },
         {
@@ -94,15 +94,19 @@
             "title": "paypal-standard::general.form.debug",
             "enable": "general.yes",
             "disable": "general.no",
-            "attributes": {},
+            "attributes": [],
             "rules": "required|integer"
         }
     ],
-    "extra-modules": {},
+    "extra-modules": [],
     "routes": {
         "redirect_after_install": [
             "settings.module.edit",
             "paypal-standard"
         ]
+    },
+    "paths": {
+        "migration": "database/migrations",
+        "seeder": "database/seeders"
     }
 }

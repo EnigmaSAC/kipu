@@ -7,14 +7,18 @@
         "Modules\\OfflinePayments\\Providers\\Event",
         "Modules\\OfflinePayments\\Providers\\Main"
     ],
-    "aliases": {},
+    "aliases": [],
     "files": [],
     "requires": [],
     "reports": [],
     "widgets": [],
     "settings": [],
-    "extra-modules": {},
+    "extra-modules": [],
     "routes": {
         "redirect_after_install": "offline-payments.settings.edit"
+    },
+    "paths": {
+        "migration": "database/migrations",
+        "seeder": "database/seeders"
     }
 }

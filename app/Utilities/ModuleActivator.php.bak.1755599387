@@ -1,0 +1,57 @@
+<?php
+
+namespace App\Utilities;
+
+use Akaunting\Module\Contracts\ActivatorInterface;
+use Akaunting\Module\Module;
+
+/**
+ * Activator mínimo que SATISFACE la interfaz.
+ * Devuelve "true" para is()/hasStatus() durante la instalación/uso,
+ * de modo que no reviente la carga de módulos mientras arreglamos lo demás.
+ */
+class ModuleActivator implements ActivatorInterface
+{
+    protected array $statuses = [];
+
+    public function __construct($app)
+    {
+        $this->statuses = [];
+    }
+
+    public function is(Module $module, bool $active): bool
+    {
+        // Permitir siempre mientras estabilizamos
+        return true;
+    }
+
+    public function enable(Module $module): void
+    {
+        $this->statuses[$module->getAlias()] = true;
+    }
+
+    public function disable(Module $module): void
+    {
+        $this->statuses[$module->getAlias()] = false;
+    }
+
+    public function hasStatus(Module $module, bool $active): bool
+    {
+        return true;
+    }
+
+    public function setActive(Module $module, bool $active): void
+    {
+        $this->statuses[$module->getAlias()] = $active;
+    }
+
+    public function delete(Module $module): void
+    {
+        unset($this->statuses[$module->getAlias()]);
+    }
+
+    public function getStatuses(): array
+    {
+        return $this->statuses;
+    }
+}

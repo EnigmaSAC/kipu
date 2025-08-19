@@ -1,145 +1,69 @@
-diff --git a/app/Utilities/ModuleActivator.php b/app/Utilities/ModuleActivator.php
-index 4060288c5d2a487f6142a50de8be8c1bedcffcc7..145ce886c4adca84883f24d048c6e4bacdac99af 100644
---- a/app/Utilities/ModuleActivator.php
-+++ b/app/Utilities/ModuleActivator.php
-@@ -1,65 +1,66 @@
- <?php
- 
- namespace App\Utilities;
- 
- use Akaunting\Module\Contracts\ActivatorInterface;
- use Akaunting\Module\Module;
- use App\Models\Module\Module as Model;
- use App\Traits\Companies;
- use App\Traits\Modules;
- use Illuminate\Cache\CacheManager as Cache;
- use Illuminate\Config\Repository as Config;
- use Illuminate\Container\Container;
-+use Illuminate\Support\Facades\Artisan;
- 
- class ModuleActivator implements ActivatorInterface
- {
-     use Companies, Modules;
- 
-     public Cache $cache;
- 
-     public Config $config;
- 
-     public array $statuses;
- 
-     public int $company_id;
- 
-     public function __construct(Container $app)
-     {
-         $this->cache = $app['cache'];
-         $this->config = $app['config'];
- 
-         $this->load();
-     }
- 
-     public function is(Module $module, bool $active): bool
-     {
-         if (app()->runningInConsole()) {
-             return true;
-         }
- 
--        if (running_in_install() && in_array($module->getAlias(), ['offline-payments', 'paypal-standard'])) {
-+        if (running_in_install() && in_array($module->getAlias(), ['offline-payments', 'paypal-standard', 'custom-fields'])) {
-             return true;
-         }
- 
-         if (! isset($this->statuses[$module->getAlias()])) {
-             return false;
-         }
- 
-         return $this->statuses[$module->getAlias()] === $active;
-     }
- 
-     public function enable(Module $module): void
-     {
-         $this->setActive($module, true);
-     }
- 
-     public function disable(Module $module): void
-     {
-         $this->setActive($module, false);
-     }
- 
-     public function setActive(Module $module, bool $active): void
-     {
-         $this->statuses[$module->getAlias()] = $active;
- 
-         $this->flushCache();
-diff --git a/app/Utilities/ModuleActivator.php b/app/Utilities/ModuleActivator.php
-index 4060288c5d2a487f6142a50de8be8c1bedcffcc7..145ce886c4adca84883f24d048c6e4bacdac99af 100644
---- a/app/Utilities/ModuleActivator.php
-+++ b/app/Utilities/ModuleActivator.php
-@@ -124,52 +125,66 @@ class ModuleActivator implements ActivatorInterface
- 
-         $key = $this->config->get('module.cache.key') . '.statuses';
-         $lifetime = $this->config->get('module.cache.lifetime');
- 
-         return $this->cache->remember($key, $lifetime, function () {
-             return $this->readDatabase();
-         });
-     }
- 
-     public function readDatabase(): array
-     {
-         if (app()->runningInConsole()) {
-             return [];
-         }
- 
-         $company_id = $this->getCompanyId();
- 
-         if (empty($company_id)) {
-             return [];
-         }
- 
-         $this->company_id = $company_id;
- 
-         $modules = Model::companyId($this->company_id)->pluck('enabled', 'alias')->toArray();
- 
-+        if (! array_key_exists('custom-fields', $modules)) {
-+            $modules['custom-fields'] = true;
-+
-+            try {
-+                Artisan::call('module:install', [
-+                    'alias'   => 'custom-fields',
-+                    'company' => $this->company_id,
-+                    'locale'  => session('locale', company($this->company_id)->locale),
-+                ]);
-+            } catch (\Throwable $e) {
-+                // Installation failure should not block request
-+            }
-+        }
-+
-         foreach ($modules as $alias => $enabled) {
--            if (in_array($alias, ['offline-payments', 'paypal-standard'])) {
-+            if (in_array($alias, ['offline-payments', 'paypal-standard', 'custom-fields'])) {
-                 continue;
-             }
- 
-             $subscription = $this->getSubscription($alias);
- 
-             if (! is_object($subscription)) {
-                 continue;
-             }
- 
-             $modules[$alias] = $subscription->status;
-         }
- 
-         return $modules;
-     }
- 
-     public function flushCache(): void
-     {
-         $key = $this->config->get('module.cache.key') . '.statuses';
- 
-         $this->cache->forget($key);
-     }
- 
-     public function register(): void
-     {
-         $this->load();
+<?php
 
+namespace App\Utilities;
+
+use Akaunting\Module\Contracts\ActivatorInterface;
+use Akaunting\Module\Module;
+
+class ModuleActivator implements ActivatorInterface
+{
+    /**
+     * Estados simples en memoria (por alias).
+     * No persiste: suficiente para satisfacer la interfaz y permitir el arranque.
+     */
+    protected array $statuses = [];
+
+    public function __construct($app)
+    {
+        // No necesitamos nada del contenedor para esta versión mínima.
+        $this->statuses = [];
+    }
+
+    /** ¿El módulo tiene el estado $active? */
+    public function is(Module $module, bool $active): bool
+    {
+        return ($this->statuses[$module->getAlias()] ?? false) === $active;
+    }
+
+    /** Habilitar módulo */
+    public function enable(Module $module): void
+    {
+        $this->setActive($module, true);
+    }
+
+    /** Deshabilitar módulo */
+    public function disable(Module $module): void
+    {
+        $this->setActive($module, false);
+    }
+
+    /** Verificar estado explícito */
+    public function hasStatus(Module $module, bool $active): bool
+    {
+        return ($this->statuses[$module->getAlias()] ?? false) === $active;
+    }
+
+    /** Fijar estado */
+    public function setActive(Module $module, bool $active): void
+    {
+        $this->statuses[$module->getAlias()] = $active;
+    }
+
+    /** Eliminar tracking del módulo */
+    public function delete(Module $module): void
+    {
+        unset($this->statuses[$module->getAlias()]);
+    }
+
+    /** Obtener todos los estados */
+    public function getStatuses(): array
+    {
+        return $this->statuses;
+    }
+
+    /** Requerido por la interfaz: limpiar estados */
+    public function reset(): void
+    {
+        $this->statuses = [];
+    }
+}

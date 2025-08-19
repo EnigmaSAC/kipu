@@ -1,0 +1,17 @@
+{
+    "alias": "currency-calculator",
+    "icon": "fas fa-forward",
+    "version": "2.0.3",
+    "category": "widget",
+    "active": 1,
+    "providers": [
+        "Modules\\CurrencyCalculator\\Providers\\Main"
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": [],
+    "reports": [],
+    "widgets": [
+        "Modules\\CurrencyCalculator\\Widgets\\CurrencyCalculator"
+    ]
+}

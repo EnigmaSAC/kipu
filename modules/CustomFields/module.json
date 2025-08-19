@@ -11,10 +11,14 @@
         "Modules\\CustomFields\\Providers\\Validation",
         "Modules\\CustomFields\\Providers\\ViewComposer"
     ],
-    "aliases": {},
+    "aliases": [],
     "files": [],
     "requires": [],
     "reports": [],
     "widgets": [],
-    "settings": []
+    "settings": [],
+    "paths": {
+        "migration": "database/migrations",
+        "seeder": "database/seeders"
+    }
 }
