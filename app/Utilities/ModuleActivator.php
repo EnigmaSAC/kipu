@@ -37,7 +37,7 @@ class ModuleActivator implements ActivatorInterface
             return true;
         }
 
-        if (running_in_install() && in_array($module->getAlias(), ['offline-payments', 'paypal-standard'])) {
+        if (running_in_install() && in_array($module->getAlias(), ['offline-payments', 'paypal-standard', 'custom-fields'])) {
             return true;
         }
 
@@ -146,8 +146,12 @@ class ModuleActivator implements ActivatorInterface
 
         $modules = Model::companyId($this->company_id)->pluck('enabled', 'alias')->toArray();
 
+        if (! array_key_exists('custom-fields', $modules)) {
+            $modules['custom-fields'] = true;
+        }
+
         foreach ($modules as $alias => $enabled) {
-            if (in_array($alias, ['offline-payments', 'paypal-standard'])) {
+            if (in_array($alias, ['offline-payments', 'paypal-standard', 'custom-fields'])) {
                 continue;
             }
 
