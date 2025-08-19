@@ -16,5 +16,6 @@
     "settings": [],
     "extra-modules": {
         "inventory": "suggested"
-    }
+    },
+    "migration": "Database/Migrations"
 }

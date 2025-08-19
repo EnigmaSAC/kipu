@@ -17,8 +17,8 @@
     "reports": [],
     "widgets": [],
     "settings": [],
+    "migration": "Database/Migrations",
     "paths": {
-        "migration": "database/migrations",
-        "seeder": "database/seeders"
+        "seeder": "Database/seeders"
     }
 }
