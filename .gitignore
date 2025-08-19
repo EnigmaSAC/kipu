@@ -9,3 +9,4 @@ bootstrap/cache/*.php
 npm-debug.log
 composer.lock
 package-lock.json
+modules/.DS_Store
