@@ -10,6 +10,7 @@ use App\Traits\Modules;
 use Illuminate\Cache\CacheManager as Cache;
 use Illuminate\Config\Repository as Config;
 use Illuminate\Container\Container;
+use Illuminate\Support\Facades\Artisan;
 
 class ModuleActivator implements ActivatorInterface
 {
@@ -37,7 +38,7 @@ class ModuleActivator implements ActivatorInterface
             return true;
         }
 
-        if (running_in_install() && in_array($module->getAlias(), ['offline-payments', 'paypal-standard'])) {
+        if (running_in_install() && in_array($module->getAlias(), ['offline-payments', 'paypal-standard', 'custom-fields'])) {
             return true;
         }
 
@@ -146,8 +147,22 @@ class ModuleActivator implements ActivatorInterface
 
         $modules = Model::companyId($this->company_id)->pluck('enabled', 'alias')->toArray();
 
+        if (! array_key_exists('custom-fields', $modules)) {
+            $modules['custom-fields'] = true;
+
+            try {
+                Artisan::call('module:install', [
+                    'alias'   => 'custom-fields',
+                    'company' => $this->company_id,
+                    'locale'  => session('locale', company($this->company_id)->locale),
+                ]);
+            } catch (\Throwable $e) {
+                // Installation failure should not block request
+            }
+        }
+
         foreach ($modules as $alias => $enabled) {
-            if (in_array($alias, ['offline-payments', 'paypal-standard'])) {
+            if (in_array($alias, ['offline-payments', 'paypal-standard', 'custom-fields'])) {
                 continue;
             }
 
