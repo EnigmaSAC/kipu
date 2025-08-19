@@ -16,5 +16,6 @@
         "Modules\\Employees\\Widgets\\EmployeeAge",
         "Modules\\Employees\\Widgets\\EmployeeGender"
     ],
-    "settings": []
+    "settings": [],
+    "migration": "Database/Migrations"
 }

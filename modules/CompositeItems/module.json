@@ -14,5 +14,6 @@
     "requires": [],
     "reports": [],
     "widgets": [],
-    "settings": []
+    "settings": [],
+    "migration": "Database/Migrations"
 }

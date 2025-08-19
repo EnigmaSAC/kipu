@@ -17,5 +17,6 @@
         "Modules\\Estimates\\Reports\\EstimateSummary"
     ],
     "settings": [],
-    "widgets": []
+    "widgets": [],
+    "migration": "Database/Migrations"
 }
